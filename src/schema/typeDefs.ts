@@ -5,10 +5,15 @@ export const typeDefs = gql`
         id: ID!
         username: String!
         email: String!
-        password: String!
     }
-
+    type Auth {
+        user: User!
+        accessToken: ID!
+    }
     type Query {
-        test:String!
+        all: [User]!
+    }
+    type Mutation {
+        login(email: String!,password: String!):Auth!
     }
 `

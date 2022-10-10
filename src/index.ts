@@ -1,14 +1,28 @@
 import { ApolloServer } from "apollo-server"
 import * as dotenv from 'dotenv'
+import * as mongoose from "mongoose"
 import {typeDefs} from "./schema/typeDefs"
 import {resolvers} from "./schema/resolvers"
 
 
-const server = new ApolloServer({typeDefs,resolvers})
+const server = new ApolloServer({
+    typeDefs,resolvers,
+    context: ({req,res}:any) => ({req,res})
+})
 
 dotenv.config()
-const port = process.env.PORT || 4000
+
+const connect = async() => {
+    try {
+        await mongoose.connect((process.env.MONGO_URI as string))
+        console.log("connected to database")
+    } catch (err) {
+        throw err
+    }
+}
+
 
 server.listen().then(({url})=>{
-    console.log(`API RUNNING AT port : ${url} :)`)
+    connect()
+    console.log(`API RUNNING AT : ${url} :)`)
 })
