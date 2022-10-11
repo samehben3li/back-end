@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv'
 import * as mongoose from "mongoose"
 import {typeDefs} from "./schema/typeDefs"
 import {resolvers} from "./schema/resolvers"
+import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core"
 
 const app = express()
 dotenv.config()
@@ -12,6 +13,11 @@ app.use(express.json())
 
 const server = new ApolloServer({
     typeDefs,resolvers,
+    csrfPrevention: true,
+  cache: "bounded",
+  plugins: [
+    ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+  ],
     context: ({req,res}:any) => ({req,res})
 })
 
