@@ -4,10 +4,9 @@ import Flag from "../model/Flag"
 import User from "../model/User"
 
 export const resolvers = {
-    //just for test
     Query:{
-        all: async (parent:any,args:any) => {
-            return await User.find()
+        getFlags: async(parent: any,args: any) => {
+            return await Flag.find()
         }
     },
     Mutation: {
