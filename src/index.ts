@@ -26,7 +26,7 @@ const connect = async() => {
 }
 
 
-server.listen().then(({url})=>{
+server.listen({port: port}).then(({url})=>{
     connect()
     console.log(`API RUNNING AT : ${url} :)`)
 })
