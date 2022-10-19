@@ -18,6 +18,10 @@ export default gql`
     left: [String]!
     right: [String]!
   }
+  type RiskCategory {
+    name: String!
+    imgUrl: String
+  }
   type Flag {
     id: ID!
     userId: ID!
