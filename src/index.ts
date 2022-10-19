@@ -25,6 +25,7 @@ const connect = async () => {
   console.log('connected to database');// eslint-disable-line
   
 };
+app.use('/assets', express.static('public'));
 
 server.listen({ port }).then(({ url }) => {
   connect();

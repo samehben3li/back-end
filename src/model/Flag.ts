@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import RiskCategory from './RiskCategory';
 
 const locationSchema = new Schema({
   left: {
@@ -15,15 +14,15 @@ const flagSchema = new Schema({
     type: String,
     require: true,
   },
-  riskCategory: {
-    type: RiskCategory,
-  },
-  pestType: {
-    type: String,
-  },
-  plantPart: {
-    type: String,
-  },
+  // riskCategory: {
+  //   type: RiskCategory,
+  // },
+  // pestType: {
+  //   type: PestType,
+  // },
+  // plantPart: {
+  //   type: PlantPart,
+  // },
   location: {
     type: locationSchema,
   },
