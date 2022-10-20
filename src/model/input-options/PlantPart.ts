@@ -2,7 +2,7 @@ import { model, Schema } from 'mongoose';
 import InputOption from './InputOption';
 
 const plantPartSchema = new Schema({
-  ...InputOption.obj,
+  ...InputOption,
 });
 
 export default model('PlantPart', plantPartSchema);

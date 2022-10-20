@@ -1,11 +1,8 @@
-import { Schema } from 'mongoose';
-
-export default new Schema({
+export default {
   name: {
     type: String,
-    unique: true,
   },
   imgUrl: {
     type: String,
   },
-});
+};

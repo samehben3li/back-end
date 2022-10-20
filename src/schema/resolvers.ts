@@ -2,7 +2,6 @@ import { IResolvers } from '@graphql-tools/utils';
 import { AuthenticationError } from 'apollo-server';
 import * as jwt from 'jsonwebtoken';
 import Flag from '../model/Flag';
-import PestType from '../model/input-options/PestType';
 import PlantPart from '../model/input-options/PlantPart';
 import RiskCategory from '../model/input-options/RiskCategory';
 import User from '../model/User';
@@ -39,21 +38,6 @@ export default {
       }
       return RiskCategory.find().then(rcs => rcs);
     },
-    getPestTypes: (_parent, _args, context) => {
-      const token = context.req.headers.authorization?.split(' ').pop().trim();
-      if (!token) {
-        throw new AuthenticationError('Not logged in');
-      }
-      const { userId } = jwt.verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET as string,
-        { maxAge: '1d' },
-      ) as jwt.JwtPayload;
-      if (!userId) {
-        throw new AuthenticationError('Invalid token');
-      }
-      return PestType.find().then(pts => pts);
-    },
     getPlantPart: (_parent, _args, context) => {
       const token = context.req.headers.authorization?.split(' ').pop().trim();
       if (!token) {
@@ -85,7 +69,7 @@ export default {
       return { accessToken, user };
     },
     addFlag: async (_parent, args, context) => {
-      const { riskCategory, pestType, plantPart, location } = args;
+      const { riskCategory, riskCategoryType, plantPart, location } = args;
       const token = context.req.headers.authorization?.split(' ').pop().trim();
       if (!token) {
         throw new AuthenticationError('Not logged in');
@@ -101,7 +85,7 @@ export default {
       const flag = await Flag.create({
         userId,
         riskCategory,
-        pestType,
+        riskCategoryType,
         plantPart,
         location,
       });
