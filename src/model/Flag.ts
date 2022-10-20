@@ -1,11 +1,15 @@
 import { Schema, model } from 'mongoose';
 
 const locationSchema = new Schema({
+  // Array of String
   left: {
-    type: [{ type: String }],
+    type: Array,
+    of: String,
   },
+  // Array of String
   right: {
-    type: [{ type: String }],
+    type: Array,
+    of: String,
   },
 });
 
