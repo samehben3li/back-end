@@ -2,6 +2,7 @@ import { ApolloServer } from 'apollo-server-express';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
+import * as cors from 'cors';
 import express from 'express';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import typeDefs from './schema/typeDefs';
@@ -11,6 +12,7 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT || 4000;
 app.use(express.json());
+app.use(cors());
 app.use('/assets', express.static(path.join(__dirname, '/assets')));
 
 const server = new ApolloServer({
@@ -36,5 +38,5 @@ startApolloServer();
 
 app.listen(port, () => {
   connect();
-  console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
+  console.log(`API RUNNING AT : http://localhost:${port}${server.graphqlPath} :)`);// eslint-disable-line
 });
