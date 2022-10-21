@@ -4,9 +4,8 @@ import * as mongoose from 'mongoose';
 import * as path from 'path';
 import cors from 'cors';
 import { expressMiddleware } from '@apollo/server/express4';
-import http from 'http';
 import express from 'express';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import typeDefs from './schema/typeDefs';
 import resolvers from './schema/resolvers';
 
@@ -15,13 +14,12 @@ dotenv.config();
 const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use('/assets', express.static(path.join(__dirname, '/assets')));
-const httpServer = http.createServer(app);
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   csrfPrevention: true,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
 });
 
 const connect = async () => {
