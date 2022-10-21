@@ -29,7 +29,7 @@ const connect = async () => {
 
 const startApolloServer = async () => {
   await server.start();
-  server.applyMiddleware({ app, cors: false });
+  server.applyMiddleware({ app, cors: true });
 };
 
 startApolloServer();
