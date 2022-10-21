@@ -2,7 +2,6 @@ import { ApolloServer } from 'apollo-server-express';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
-import cors from 'cors';
 import express from 'express';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import typeDefs from './schema/typeDefs';
@@ -12,7 +11,6 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT || 4000;
 app.use(express.json());
-app.use(cors);
 app.use('/assets', express.static(path.join(__dirname, '/assets')));
 
 const server = new ApolloServer({
@@ -31,7 +29,7 @@ const connect = async () => {
 
 const startApolloServer = async () => {
   await server.start();
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: false });
 };
 
 startApolloServer();
