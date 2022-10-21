@@ -3,7 +3,6 @@ import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
 import cors from 'cors';
-import { json } from 'body-parser';
 import { expressMiddleware } from '@apollo/server/express4';
 import http from 'http';
 import express from 'express';
@@ -40,7 +39,6 @@ const startApolloServer = async () => {
   app.use(
     '/',
     cors<cors.CorsRequest>(),
-    json(),
     expressMiddleware(server, {
       context: async ({ req }) => ({ req }),
     }),
