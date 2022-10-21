@@ -1,6 +1,7 @@
 import { IResolvers } from '@graphql-tools/utils';
 import { AuthenticationError } from 'apollo-server';
 import * as jwt from 'jsonwebtoken';
+import { risk, plant } from '../assets/data';
 import Flag from '../model/Flag';
 import PlantPart from '../model/input-options/PlantPart';
 import RiskCategory from '../model/input-options/RiskCategory';
