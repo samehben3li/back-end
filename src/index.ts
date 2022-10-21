@@ -1,10 +1,13 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer } from '@apollo/server';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
 import cors from 'cors';
+import { json } from 'body-parser';
+import { expressMiddleware } from '@apollo/server/express4';
+import http from 'http';
 import express from 'express';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import typeDefs from './schema/typeDefs';
 import resolvers from './schema/resolvers';
 
@@ -12,16 +15,14 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT || 4000;
 app.use(express.json());
-app.use(cors());
 app.use('/assets', express.static(path.join(__dirname, '/assets')));
+const httpServer = http.createServer(app);
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   csrfPrevention: true,
-  cache: 'bounded',
-  plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
-  context: ({ req, res }) => ({ req, res }),
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
 const connect = async () => {
@@ -29,14 +30,26 @@ const connect = async () => {
   console.log('connected to database');// eslint-disable-line
 };
 
+/* const startApolloServer = async () => {
+  await server.start();
+  server.applyMiddleware({ app });
+}; */
+
 const startApolloServer = async () => {
   await server.start();
-  server.applyMiddleware({ app, cors: { credentials: true, origin: true } });
+  app.use(
+    '/',
+    cors<cors.CorsRequest>(),
+    json(),
+    expressMiddleware(server, {
+      context: async ({ req }) => ({ req }),
+    }),
+  );
 };
 
 startApolloServer();
 
 app.listen(port, () => {
   connect();
-  console.log(`API RUNNING AT : http://localhost:${port}${server.graphqlPath} :)`);// eslint-disable-line
+  console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
 });
