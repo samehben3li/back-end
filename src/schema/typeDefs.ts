@@ -27,6 +27,7 @@ export default gql`
     imgUrl: String
   }
   type RiskCategoryType {
+    id: ID!
     name: String!
     imgUrl: String
   }

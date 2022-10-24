@@ -27,18 +27,13 @@ const connect = async () => {
   console.log('connected to database');// eslint-disable-line
 };
 
-/* const startApolloServer = async () => {
-  await server.start();
-  server.applyMiddleware({ app });
-}; */
-
 const startApolloServer = async () => {
   await server.start();
   app.use(
     '/',
     cors<cors.CorsRequest>(),
     expressMiddleware(server, {
-      context: async ({ req }) => ({ req }),
+      context: async ({ req, res }) => ({ req, res }),
     }),
   );
 };
