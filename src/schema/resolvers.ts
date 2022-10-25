@@ -1,12 +1,13 @@
 import { IResolvers } from '@graphql-tools/utils';
 import { AuthenticationError } from 'apollo-server';
 import * as jwt from 'jsonwebtoken';
+import Flag from '../model/Flag';
 import User from '../model/User';
 
 const resolvers: IResolvers = {
   // just for test
   Query: {
-    all: () => User.find().then(users => users),
+    all: async () => User.find().then(users => users),
   },
   Mutation: {
     login: async (_parent, { email, password }) => {
@@ -19,7 +20,31 @@ const resolvers: IResolvers = {
         process.env.ACCESS_TOKEN_SECRET as string,
         { expiresIn: '1d' },
       );
+
       return { accessToken, user };
+    },
+    addFlag: async (_parent, args, context) => {
+      const { riskCategory, pestType, plantPart, location } = args;
+      const token = context.req.headers.authorization?.split(' ').pop().trim();
+      if (!token) {
+        throw new AuthenticationError('Not logged in');
+      }
+      const { userId } = jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET as string,
+        { maxAge: '1d' },
+      ) as jwt.JwtPayload;
+      if (!userId) {
+        throw new AuthenticationError('Invalid token');
+      }
+      const flag = await Flag.create({
+        userId,
+        riskCategory,
+        pestType,
+        plantPart,
+        location,
+      });
+      return flag;
     },
   },
 };

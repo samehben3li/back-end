@@ -10,10 +10,32 @@ export default gql`
     user: User!
     accessToken: ID!
   }
+  input LocationInput {
+    left: [String]!
+    right: [String]!
+  }
+  type Location {
+    left: [String]!
+    right: [String]!
+  }
+  type Flag {
+    id: ID!
+    userId: ID!
+    riskCategory: String!
+    pestType: String!
+    plantPart: String!
+    location: Location!
+  }
   type Query {
     all: [User]!
   }
   type Mutation {
     login(email: String!, password: String!): Auth!
+    addFlag(
+      riskCategory: String!
+      pestType: String!
+      plantPart: String!
+      location: LocationInput
+    ): Flag!
   }
 `;
