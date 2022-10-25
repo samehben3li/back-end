@@ -49,6 +49,7 @@ export default gql`
     riskCategoryType: InputOptionType!
     plantPart: InputOptionType!
     location: Location!
+    createdAt: String!
   }
   type Query {
     getFlags: [Flag!]!
