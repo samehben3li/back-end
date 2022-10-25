@@ -21,7 +21,9 @@ export default {
       if (!userId) {
         throw new AuthenticationError('Invalid token');
       }
-      return Flag.find().then(flags => flags);
+      return Flag.find()
+        .sort({ createdAt: -1 })
+        .then(flags => flags);
     },
     getRiskCategories: (_parent, _args, context) => {
       const token = context.req.headers.authorization?.split(' ').pop().trim();
