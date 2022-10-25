@@ -22,7 +22,8 @@ const server = new ApolloServer({
 
 const connect = async () => {
   await mongoose.connect(process.env.MONGO_URI as string);
-  console.log('connected to database'); // eslint-disable-line
+  console.log('connected to database');// eslint-disable-line
+  
 };
 
 server.listen({ port }).then(({ url }) => {

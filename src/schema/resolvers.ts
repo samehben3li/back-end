@@ -4,10 +4,23 @@ import * as jwt from 'jsonwebtoken';
 import Flag from '../model/Flag';
 import User from '../model/User';
 
-const resolvers: IResolvers = {
-  // just for test
+export default {
   Query: {
-    all: async () => User.find().then(users => users),
+    getFlags: (_parent, _args, context) => {
+      const token = context.req.headers.authorization?.split(' ').pop().trim();
+      if (!token) {
+        throw new AuthenticationError('Not logged in');
+      }
+      const { userId } = jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET as string,
+        { maxAge: '1d' },
+      ) as jwt.JwtPayload;
+      if (!userId) {
+        throw new AuthenticationError('Invalid token');
+      }
+      return Flag.find().then(flags => flags);
+    },
   },
   Mutation: {
     login: async (_parent, { email, password }) => {
@@ -47,6 +60,4 @@ const resolvers: IResolvers = {
       return flag;
     },
   },
-};
-
-export default resolvers;
+} as IResolvers;
