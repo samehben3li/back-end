@@ -11,7 +11,7 @@ export default {
     getFlags: (_parent, _args, context) => {
       const token = context.req.headers.authorization?.split(' ').pop().trim();
       if (!token) {
-        throw new AuthenticationError('Not logged in');
+        throw new AuthenticationError('NOT_LOGGED_IN');
       }
       const { userId } = jwt.verify(
         token,
@@ -19,7 +19,7 @@ export default {
         { maxAge: '1d' },
       ) as jwt.JwtPayload;
       if (!userId) {
-        throw new AuthenticationError('Invalid token');
+        throw new AuthenticationError('INVALID_TOKEN');
       }
       return Flag.find({ userId })
         .sort({ createdAt: -1 })
@@ -28,7 +28,7 @@ export default {
     getRiskCategories: (_parent, _args, context) => {
       const token = context.req.headers.authorization?.split(' ').pop().trim();
       if (!token) {
-        throw new AuthenticationError('Not logged in');
+        throw new AuthenticationError('NOT_LOGGED_IN');
       }
       const { userId } = jwt.verify(
         token,
@@ -36,14 +36,14 @@ export default {
         { maxAge: '1d' },
       ) as jwt.JwtPayload;
       if (!userId) {
-        throw new AuthenticationError('Invalid token');
+        throw new AuthenticationError('INVALID_TOKEN');
       }
       return RiskCategory.find().then(rcs => rcs);
     },
     getPlantPart: (_parent, _args, context) => {
       const token = context.req.headers.authorization?.split(' ').pop().trim();
       if (!token) {
-        throw new AuthenticationError('Not logged in');
+        throw new AuthenticationError('NOT_LOGGED_IN');
       }
       const { userId } = jwt.verify(
         token,
@@ -51,7 +51,7 @@ export default {
         { maxAge: '1d' },
       ) as jwt.JwtPayload;
       if (!userId) {
-        throw new AuthenticationError('Invalid token');
+        throw new AuthenticationError('INVALID_TOKEN');
       }
       return PlantPart.find().then(pps => pps);
     },
@@ -60,7 +60,7 @@ export default {
     login: async (_parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user || password !== user.password) {
-        throw new AuthenticationError('Incorrect credentials');
+        throw new AuthenticationError('INCORRECT_CREDENTIALS');
       }
       const accessToken = jwt.sign(
         { userId: user.id },
@@ -74,7 +74,7 @@ export default {
       const { riskCategory, riskCategoryType, plantPart, location } = args;
       const token = context.req.headers.authorization?.split(' ').pop().trim();
       if (!token) {
-        throw new AuthenticationError('Not logged in');
+        throw new AuthenticationError('NOT_LOGGED_IN');
       }
       const { userId } = jwt.verify(
         token,
@@ -82,7 +82,7 @@ export default {
         { maxAge: '1d' },
       ) as jwt.JwtPayload;
       if (!userId) {
-        throw new AuthenticationError('Invalid token');
+        throw new AuthenticationError('INVALID_TOKEN');
       }
       const flag = await Flag.create({
         userId,
