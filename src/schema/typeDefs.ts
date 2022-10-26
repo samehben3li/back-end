@@ -27,7 +27,7 @@ export default gql`
     location: Location!
   }
   type Query {
-    getFlags: [Flag!]!
+    getFlags: [Flag]!
   }
   type Mutation {
     login(email: String!, password: String!): Auth!
