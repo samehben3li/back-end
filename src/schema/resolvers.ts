@@ -19,7 +19,7 @@ export default {
       if (!userId) {
         throw new AuthenticationError('Invalid token');
       }
-      return Flag.find({ userId: userId }).then(flags => flags);
+      return Flag.find({ userId }).then(flags => flags);
     },
   },
   Mutation: {
