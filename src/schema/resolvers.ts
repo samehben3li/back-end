@@ -21,7 +21,7 @@ export default {
       if (!userId) {
         throw new AuthenticationError('Invalid token');
       }
-      return Flag.find()
+      return Flag.find({ userId })
         .sort({ createdAt: -1 })
         .then(flags => flags);
     },

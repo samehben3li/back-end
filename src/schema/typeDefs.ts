@@ -52,7 +52,7 @@ export default gql`
     createdAt: String!
   }
   type Query {
-    getFlags: [Flag!]!
+    getFlags: [Flag]!
     getRiskCategories: [RiskCategory]!
     getPlantPart: [PlantPart]!
   }
