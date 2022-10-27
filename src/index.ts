@@ -1,7 +1,7 @@
 import { ApolloServer } from '@apollo/server';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import * as path from 'path';
+import path from 'path';
 import cors from 'cors';
 import { expressMiddleware } from '@apollo/server/express4';
 import express from 'express';
