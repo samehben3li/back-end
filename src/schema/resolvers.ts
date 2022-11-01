@@ -58,7 +58,7 @@ export default {
   },
   Mutation: {
     login: async (_parent, { email, password }) => {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email: email.toLowerCase() });
       if (!user || password !== user.password) {
         throw new AuthenticationError('INCORRECT_CREDENTIALS');
       }
