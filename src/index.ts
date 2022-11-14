@@ -15,10 +15,6 @@ const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use('/assets', express.static(path.join(__dirname, '/assets')));
 
-app.get('/test', (req, res) => {
-  res.send('hi');
-});
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,
