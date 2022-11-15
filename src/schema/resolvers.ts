@@ -1,6 +1,6 @@
 import { IResolvers } from '@graphql-tools/utils';
 import { AuthenticationError } from 'apollo-server';
-import * as jwt from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 import Flag from '../model/Flag';
 import PlantPart from '../model/input-options/PlantPart';
 import RiskCategory from '../model/input-options/RiskCategory';
@@ -34,7 +34,7 @@ export default {
       if (!user || password !== user.password) {
         throw new AuthenticationError('INCORRECT_CREDENTIALS');
       }
-      const accessToken = jwt.sign(
+      const accessToken = sign(
         { userId: user.id },
         process.env.ACCESS_TOKEN_SECRET as string,
         { expiresIn: '1d' },
