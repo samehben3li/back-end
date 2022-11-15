@@ -15,10 +15,6 @@ const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use('/assets', express.static(path.join(__dirname, '/assets')));
 
-app.get('/test', (req, res) => {
-  res.send('hi');
-});
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -28,7 +24,7 @@ const server = new ApolloServer({
 
 const connect = async () => {
   await mongoose.connect(process.env.MONGO_URI as string);
-  console.log('connected to database');// eslint-disable-line
+  // console.log('connected to database');// eslint-disable-line
 };
 
 const startApolloServer = async () => {
@@ -46,5 +42,7 @@ startApolloServer();
 
 app.listen(port, () => {
   connect();
-  console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
+  // console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
 });
+
+export default server;
