@@ -45,4 +45,4 @@ app.listen(port, () => {
   // console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
 });
 
-export default server;
+export default app;

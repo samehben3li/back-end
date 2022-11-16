@@ -1,43 +1,87 @@
-import assert from 'node:assert';
-import server from '..';
+import request from 'supertest';
+import app from '..';
+import { CorretUserInfo, IncorrectUserInfo } from './data';
+import loginMutation from './mutation/login';
+import getPlantPart from './query/getPlantPart';
+import getRiskCategories from './query/getRiskCategories';
 
-it('should validate user info correctly', async () => {
-  // correct credentials
-  let response = await server.executeOperation({
-    query:
-      'mutation Login($email: String!, $password: String!) { login(email: $email, password: $password) { accessToken, user {email, id, username}}}',
-    variables: {
-      email: 'test@test.com',
-      password: 'test123',
-    },
-  });
-  assert(response.body.kind === 'single');
-  expect(response.body.singleResult.errors).toBeUndefined();
-  expect(response.body.singleResult.data).toBeTruthy();
+const queryData = {
+  query: `
+  query Query {
+    getFlags {
+      userId
+      id
+      createdAt
+      riskCategoryType {
+        name
+        imgUrl
+      }
+      riskCategory {
+        name
+        imgUrl
+      }
+      location {
+        left
+        right
+      }
+      plantPart {
+        name
+        imgUrl
+      }
+    }
+  }
+  `,
+};
+describe('e2e demo', () => {
+  let token = '';
+  const fakeToken = 'barrer fake.token';
+  it('testing login functionality', async () => {
+    // correct credentials
+    let response = await request(app)
+      .post('/')
+      .send(loginMutation(CorretUserInfo));
+    expect(response?.body?.data?.login).toBeTruthy();
+    expect(response?.body?.data?.login).toHaveProperty('accessToken');
+    expect(response?.body?.data?.login).toHaveProperty('user');
+    token = `barrer ${response.body.data.login.accessToken}`;
 
-  // incorrect credentials
-  response = await server.executeOperation({
-    query:
-      'mutation Login($email: String!, $password: String!) { login(email: $email, password: $password) { accessToken, user {email, id, username}}}',
-    variables: {
-      email: 'incorrect@test.com',
-      password: 'test123',
-    },
+    // incorrect credentials
+    response = await request(app)
+      .post('/')
+      .send(loginMutation(IncorrectUserInfo));
+    expect(response?.body?.data).toBeNull();
+    expect(response?.body?.errors).toBeTruthy();
   });
-  assert(response.body.kind === 'single');
-  expect(response.body.singleResult.errors).toBeTruthy();
-  expect(response.body.singleResult.data).toBeFalsy();
 
-  // missing email
-  response = await server.executeOperation({
-    query:
-      'mutation Login($email: String!, $password: String!) { login(email: $email, password: $password) { accessToken, user {email, id, username}}}',
-    variables: {
-      email: '',
-      password: 'test123',
-    },
+  it('testing getRiskCategories functionnality', async () => {
+    // with correct access token
+    let response = await request(app).post('/').send(getRiskCategories).set({
+      Authorization: token,
+    });
+    expect(response?.body?.data?.getRiskCategories).toBeTruthy();
+    expect(response?.body?.errors).toBeUndefined();
+
+    // with incorrect access token
+    response = await request(app).post('/').send(getRiskCategories).set({
+      Authorization: fakeToken,
+    });
+    expect(response?.body?.data).toBeNull();
+    expect(response?.body?.errors).toBeTruthy();
   });
-  assert(response.body.kind === 'single');
-  expect(response.body.singleResult.errors).toBeTruthy();
-  expect(response.body.singleResult.data).toBeFalsy();
+
+  it('testing getPlantPart functionnality', async () => {
+    // with correct access token
+    let response = await request(app).post('/').send(getPlantPart).set({
+      Authorization: token,
+    });
+    expect(response?.body?.data?.getPlantPart).toBeTruthy();
+    expect(response?.body?.errors).toBeUndefined();
+
+    // with incorrect access token
+    response = await request(app).post('/').send(getPlantPart).set({
+      Authorization: fakeToken,
+    });
+    expect(response?.body?.data).toBeNull();
+    expect(response?.body?.errors).toBeTruthy();
+  });
 });
