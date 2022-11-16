@@ -1,8 +1,11 @@
-import { ApolloServer } from 'apollo-server';
-import express from 'express';
+import { ApolloServer } from '@apollo/server';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import path from 'path';
+import cors from 'cors';
+import { expressMiddleware } from '@apollo/server/express4';
+import express from 'express';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import typeDefs from './schema/typeDefs';
 import resolvers from './schema/resolvers';
 
@@ -10,23 +13,34 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT || 4000;
 app.use(express.json());
+app.use('/assets', express.static(path.join(__dirname, '/assets')));
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   csrfPrevention: true,
-  cache: 'bounded',
   plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
-  context: ({ req, res }) => ({ req, res }),
 });
 
 const connect = async () => {
   await mongoose.connect(process.env.MONGO_URI as string);
   console.log('connected to database');// eslint-disable-line
-  
 };
 
-server.listen({ port }).then(({ url }) => {
+const startApolloServer = async () => {
+  await server.start();
+  app.use(
+    '/',
+    cors<cors.CorsRequest>(),
+    expressMiddleware(server, {
+      context: async ({ req, res }) => ({ req, res }),
+    }),
+  );
+};
+
+startApolloServer();
+
+app.listen(port, () => {
   connect();
-  console.log(`API RUNNING AT : ${url} :)`);// eslint-disable-line
+  console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
 });
