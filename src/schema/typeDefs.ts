@@ -18,23 +18,50 @@ export default gql`
     left: [String]!
     right: [String]!
   }
+  input InputOption {
+    name: String!
+    imgUrl: String
+  }
+  type InputOptionType {
+    name: String!
+    imgUrl: String
+  }
+  type RiskCategoryType {
+    id: ID!
+    name: String!
+    imgUrl: String
+  }
+  type RiskCategory {
+    id: ID
+    name: String!
+    imgUrl: String
+    riskCategoryTypes: [RiskCategoryType]
+  }
+  type PlantPart {
+    id: ID
+    name: String!
+    imgUrl: String
+  }
   type Flag {
     id: ID!
     userId: ID!
-    riskCategory: String!
-    pestType: String!
-    plantPart: String!
+    riskCategory: InputOptionType!
+    riskCategoryType: InputOptionType!
+    plantPart: InputOptionType!
     location: Location!
+    createdAt: String!
   }
   type Query {
     getFlags: [Flag]!
+    getRiskCategories: [RiskCategory]!
+    getPlantPart: [PlantPart]!
   }
   type Mutation {
     login(email: String!, password: String!): Auth!
     addFlag(
-      riskCategory: String!
-      pestType: String!
-      plantPart: String!
+      riskCategory: InputOption!
+      riskCategoryType: InputOption!
+      plantPart: InputOption!
       location: LocationInput
     ): Flag!
   }
