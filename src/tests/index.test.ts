@@ -2,36 +2,10 @@ import request from 'supertest';
 import app from '..';
 import { CorretUserInfo, IncorrectUserInfo } from './data';
 import loginMutation from './mutation/login';
+import getFlags from './query/getFlags';
 import getPlantPart from './query/getPlantPart';
 import getRiskCategories from './query/getRiskCategories';
 
-const queryData = {
-  query: `
-  query Query {
-    getFlags {
-      userId
-      id
-      createdAt
-      riskCategoryType {
-        name
-        imgUrl
-      }
-      riskCategory {
-        name
-        imgUrl
-      }
-      location {
-        left
-        right
-      }
-      plantPart {
-        name
-        imgUrl
-      }
-    }
-  }
-  `,
-};
 describe('e2e demo', () => {
   let token = '';
   const fakeToken = 'barrer fake.token';
@@ -79,6 +53,22 @@ describe('e2e demo', () => {
 
     // with incorrect access token
     response = await request(app).post('/').send(getPlantPart).set({
+      Authorization: fakeToken,
+    });
+    expect(response?.body?.data).toBeNull();
+    expect(response?.body?.errors).toBeTruthy();
+  });
+
+  it('testing getFlags functionnality', async () => {
+    // with correct access token
+    let response = await request(app).post('/').send(getFlags).set({
+      Authorization: token,
+    });
+    expect(response?.body?.data?.getFlags).toBeTruthy();
+    expect(response?.body?.errors).toBeUndefined();
+
+    // with incorrect access token
+    response = await request(app).post('/').send(getFlags).set({
       Authorization: fakeToken,
     });
     expect(response?.body?.data).toBeNull();
