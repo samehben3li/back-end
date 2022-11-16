@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '..';
 import { CorretUserInfo, IncorrectUserInfo } from './data';
+import { IInputOptions, IRiskCategory } from './interfaces';
 import loginMutation from './mutation/login';
 import getFlags from './query/getFlags';
 import getPlantPart from './query/getPlantPart';
@@ -9,6 +10,8 @@ import getRiskCategories from './query/getRiskCategories';
 describe('e2e demo', () => {
   let token = '';
   const fakeToken = 'barrer fake.token';
+  let riskCategories: Array<IRiskCategory>;
+  let plantPart: Array<IInputOptions>;
   it('testing login functionality', async () => {
     // correct credentials
     let response = await request(app)
@@ -34,6 +37,7 @@ describe('e2e demo', () => {
     });
     expect(response?.body?.data?.getRiskCategories).toBeTruthy();
     expect(response?.body?.errors).toBeUndefined();
+    riskCategories = response?.body?.data?.getRiskCategories;
 
     // with incorrect access token
     response = await request(app).post('/').send(getRiskCategories).set({
@@ -50,6 +54,7 @@ describe('e2e demo', () => {
     });
     expect(response?.body?.data?.getPlantPart).toBeTruthy();
     expect(response?.body?.errors).toBeUndefined();
+    plantPart = response?.body?.data?.getPlantPart;
 
     // with incorrect access token
     response = await request(app).post('/').send(getPlantPart).set({
@@ -73,5 +78,29 @@ describe('e2e demo', () => {
     });
     expect(response?.body?.data).toBeNull();
     expect(response?.body?.errors).toBeTruthy();
+  });
+
+  it('testing icons', async () => {
+    let response;
+    // testing risk categories icons
+    riskCategories.forEach(async rc => {
+      response = await request(app).get(`/${rc.imgUrl}`);
+      expect(response?.status).toBe(200);
+      expect(response?.status).toBeLessThan(400);
+
+      // testing risk categories type icons
+      rc.riskCategoryTypes.forEach(async rct => {
+        response = await request(app).get(`/${rct.imgUrl}`);
+        expect(response?.status).toBe(200);
+        expect(response?.status).toBeLessThan(400);
+      });
+    });
+
+    // testing plant part icons
+    plantPart.forEach(async pp => {
+      response = await request(app).get(`/${pp.imgUrl}`);
+      expect(response?.status).toBe(200);
+      expect(response?.status).toBeLessThan(400);
+    });
   });
 });

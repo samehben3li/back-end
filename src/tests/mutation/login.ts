@@ -1,4 +1,4 @@
-import IUserInfo from '../interfaces';
+import { IUserInfo } from '../interfaces';
 
 const loginMutation = (userInfo: IUserInfo) => ({
   query: `
