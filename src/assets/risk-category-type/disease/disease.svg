@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="81px" height="87px" viewBox="0 0 81 87" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 4</title>
+    <g id="06-Tomato-Trolley-10052022" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="002_TomatoTrolley_Screen02-Copy-14" transform="translate(-133.000000, -1226.000000)" stroke="#000000" stroke-width="4">
+            <g id="Group-7" transform="translate(80.000000, 1197.000000)">
+                <g id="Group-4" transform="translate(55.085480, 31.143852)">
+                    <path d="M36.788573,10.019032 L39.5615503,10.019032 C43.9953892,10.019032 47.7686766,13.2482431 48.4535382,17.6288701 L50.4558875,30.4366342 C51.3081791,35.8882049 51.0513028,41.4557216 49.7006473,46.8056519 L41.8358694,77.9579428 C41.3118621,80.0335293 39.540523,81.556234 37.4097967,81.7627486 C35.3802928,81.9594526 33.5218828,80.6142302 33.0748022,78.624834 L25.9202928,46.7890738 C24.7202521,41.4491957 24.6014764,35.9230967 25.5709686,30.5365874 L27.9309003,17.4247816 C28.7024467,13.1380613 32.4329726,10.019032 36.788573,10.019032 Z" id="Rectangle" transform="translate(37.924745, 46.063045) scale(1, -1) translate(-37.924745, -46.063045) "></path>
+                    <polyline id="Path-5" stroke-linecap="round" points="47 33.4559704 54.9145196 28.1764225 67.9145196 1.90175174e-12"></polyline>
+                    <polyline id="Path-5-Copy" stroke-linecap="round" transform="translate(62.457260, 65.727985) scale(1, -1) translate(-62.457260, -65.727985) " points="52 82.4559704 59.9145196 77.1764225 72.9145196 49"></polyline>
+                    <polyline id="Path-5-Copy-2" stroke-linecap="round" transform="translate(63.000000, 46.000000) scale(1, -1) translate(-63.000000, -46.000000) " points="50 52 59.8389785 50.1063298 76 40"></polyline>
+                    <polyline id="Path-5" stroke-linecap="round" points="47 33.4559704 54.9145196 28.1764225 67.9145196 1.90175174e-12"></polyline>
+                    <polyline id="Path-5-Copy-3" stroke-linecap="round" transform="translate(15.457260, 16.727985) scale(-1, 1) translate(-15.457260, -16.727985) " points="5 33.4559704 12.9145196 28.1764225 25.9145196 1.90175174e-12"></polyline>
+                    <polyline id="Path-5-Copy" stroke-linecap="round" transform="translate(62.457260, 65.727985) scale(1, -1) translate(-62.457260, -65.727985) " points="52 82.4559704 59.9145196 77.1764225 72.9145196 49"></polyline>
+                    <polyline id="Path-5-Copy-4" stroke-linecap="round" transform="translate(14.457260, 65.727985) scale(-1, -1) translate(-14.457260, -65.727985) " points="4 82.4559704 11.9145196 77.1764225 24.9145196 49"></polyline>
+                    <polyline id="Path-5-Copy-2" stroke-linecap="round" transform="translate(63.000000, 46.000000) scale(1, -1) translate(-63.000000, -46.000000) " points="50 52 59.8389785 50.1063298 76 40"></polyline>
+                    <polyline id="Path-5-Copy-5" stroke-linecap="round" transform="translate(13.000000, 46.000000) scale(-1, -1) translate(-13.000000, -46.000000) " points="0 52 9.83897852 50.1063298 26 40"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
