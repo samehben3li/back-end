@@ -1,7 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import path from 'path';
 import cors from 'cors';
 import { expressMiddleware } from '@apollo/server/express4';
 import express from 'express';
@@ -13,7 +12,6 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT || 4000;
 app.use(express.json());
-app.use('/assets', express.static(path.join(__dirname, '/assets')));
 
 const server = new ApolloServer({
   typeDefs,
