@@ -84,13 +84,13 @@ describe('e2e demo', () => {
     let response;
     // testing risk categories icons
     riskCategories.forEach(async rc => {
-      response = await request(app).get(`/${rc.imgUrl}`);
+      response = await request(rc.imgUrl).get('');
       expect(response?.status).toBe(200);
       expect(response?.status).toBeLessThan(400);
 
       // testing risk categories type icons
       rc.riskCategoryTypes.forEach(async rct => {
-        response = await request(app).get(`/${rct.imgUrl}`);
+        response = await request(rct.imgUrl).get('');
         expect(response?.status).toBe(200);
         expect(response?.status).toBeLessThan(400);
       });
@@ -98,7 +98,7 @@ describe('e2e demo', () => {
 
     // testing plant part icons
     plantPart.forEach(async pp => {
-      response = await request(app).get(`/${pp.imgUrl}`);
+      response = await request(pp.imgUrl).get('');
       expect(response?.status).toBe(200);
       expect(response?.status).toBeLessThan(400);
     });
