@@ -2,15 +2,11 @@ import { Schema, model } from 'mongoose';
 import InputOption from './input-options/InputOption';
 
 const locationSchema = new Schema({
-  // Array of String
   left: {
-    type: Array,
-    of: String,
+    type: [],
   },
-  // Array of String
   right: {
-    type: Array,
-    of: String,
+    type: [],
   },
 });
 
