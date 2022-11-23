@@ -1,7 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import path from 'path';
 import cors from 'cors';
 import { expressMiddleware } from '@apollo/server/express4';
 import express from 'express';
@@ -13,7 +12,6 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT || 4000;
 app.use(express.json());
-app.use('/assets', express.static(path.join(__dirname, '/assets')));
 
 const server = new ApolloServer({
   typeDefs,
@@ -24,7 +22,7 @@ const server = new ApolloServer({
 
 const connect = async () => {
   await mongoose.connect(process.env.MONGO_URI as string);
-  console.log('connected to database');// eslint-disable-line
+  // console.log('connected to database');// eslint-disable-line
 };
 
 const startApolloServer = async () => {
@@ -42,5 +40,7 @@ startApolloServer();
 
 app.listen(port, () => {
   connect();
-  console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
+  // console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
 });
+
+export default app;
