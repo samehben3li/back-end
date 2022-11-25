@@ -1,4 +1,4 @@
-const getPlantPart = {
+const getPlantPartQuery = {
   query: `
     query GetPlantPart {
         getPlantPart {
@@ -9,4 +9,4 @@ const getPlantPart = {
     }`,
 };
 
-export default getPlantPart;
+export default getPlantPartQuery;

@@ -13,7 +13,7 @@ dotenv.config();
 const port = process.env.PORT || 4000;
 app.use(express.json());
 
-const server = new ApolloServer({
+const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   csrfPrevention: true,
@@ -26,11 +26,11 @@ const connect = async () => {
 };
 
 const startApolloServer = async () => {
-  await server.start();
+  await apolloServer.start();
   app.use(
     '/',
     cors<cors.CorsRequest>(),
-    expressMiddleware(server, {
+    expressMiddleware(apolloServer, {
       context: async ({ req, res }) => ({ req, res }),
     }),
   );
@@ -38,9 +38,9 @@ const startApolloServer = async () => {
 
 startApolloServer();
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   connect();
   // console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
 });
 
-export default app;
+export default server;

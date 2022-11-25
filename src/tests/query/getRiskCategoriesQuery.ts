@@ -1,4 +1,4 @@
-const getRiskCategories = {
+const getRiskCategoriesQuery = {
   query: `
 query GetRiskCategories {
   getRiskCategories {
@@ -14,4 +14,4 @@ query GetRiskCategories {
 }`,
 };
 
-export default getRiskCategories;
+export default getRiskCategoriesQuery;

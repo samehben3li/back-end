@@ -1,4 +1,4 @@
-const getFlags = {
+const getFlagsQuery = {
   query: `
     query Query {
       getFlags {
@@ -26,4 +26,4 @@ const getFlags = {
     `,
 };
 
-export default getFlags;
+export default getFlagsQuery;
