@@ -47,17 +47,13 @@ At this point, you should have appropriate versions of Node.js and NPM
 installed as well as a project directory that contains the dependencies you 
 need to use the Node.js.
 
-### 3. Configure your Envirement variables
+### 3. Configure your environnement variables
 
 1. create `.env` file.
 
 2. You can follow the [Getting Started with Atlas](https://docs.atlas.mongodb.com/getting-started/) guide, to learn how to create a free Atlas account, create your first cluster and get your Connection String to the database.
 ```
 MONGO_URI=mongodb+srv://<username>:<password>@sandbox.jadwj.mongodb.net/tomatoTrolley?retryWrites=true&w=majority
-
-```js
-    const uri = 
-      "<Your Atlas Connection String>";
 ```
 
 3. add and configure the following variables 
@@ -80,3 +76,5 @@ directory that contains it with the following command:
 ```shell
 npm start
 ```
+
+visit:  http://localhost:4000. 
