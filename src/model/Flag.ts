@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import InputOption from './input-options/InputOption';
 
 const locationSchema = new Schema({
   // Array of String
@@ -14,30 +13,23 @@ const locationSchema = new Schema({
   },
 });
 
-const flagSchema = new Schema(
-  {
-    userId: {
-      type: String,
-      require: true,
-    },
-    riskCategory: {
-      type: InputOption,
-      _id: false,
-    },
-    riskCategoryType: {
-      type: InputOption,
-      _id: false,
-    },
-    plantPart: {
-      type: InputOption,
-      _id: false,
-    },
-    location: {
-      type: locationSchema,
-      _id: false,
-    },
+const flagSchema = new Schema({
+  userId: {
+    type: String,
+    require: true,
   },
-  { timestamps: true },
-);
+  riskCategory: {
+    type: String,
+  },
+  pestType: {
+    type: String,
+  },
+  plantPart: {
+    type: String,
+  },
+  location: {
+    type: locationSchema,
+  },
+});
 
 export default model('Flag', flagSchema);
