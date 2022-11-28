@@ -56,12 +56,11 @@ need to use the Node.js.
 MONGO_URI=mongodb+srv://<username>:<password>@sandbox.jadwj.mongodb.net/tomatoTrolley?retryWrites=true&w=majority
 ```
 
-3. add and configure the following variables 
+3. add and configure the following variables (view sample.env file)
 
 ```
 MONGO_URI = mongodb+srv://<username>:<password>@sandbox.jadwj.mongodb.net/tomatoTrolley?retryWrites=true&w=majority
 ACCESS_TOKEN_SECRET = YOUR_ACCESS_TOKEN_SECRET
-REFRESH_TOKEN_SECRET = YOUR_REFRESH_TOKEN_SECRET
 PORT = 4000
 ```
 
@@ -78,3 +77,9 @@ npm start
 ```
 
 visit:  http://localhost:4000. 
+
+### 5. Testing application
+
+```shell
+npm test
+```
