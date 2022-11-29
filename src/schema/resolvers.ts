@@ -6,6 +6,7 @@ import PlantPart from '../model/input-options/PlantPart';
 import RiskCategory from '../model/input-options/RiskCategory';
 import User from '../model/User';
 import authenticated from '../utils/authenticated';
+import getInputContent from '../utils/getInputContent';
 
 export default {
   Query: {
@@ -17,16 +18,27 @@ export default {
         .sort({ createdAt: -1 })
         .then(flags => flags);
     },
-    getRiskCategories: (_parent, _args, context) => {
+    getRiskCategories: (_parent, _args, context) =>
+      getInputContent(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+        () => RiskCategory.find().then(rcs => rcs),
+      ),
+
+    /* {
       const token = context.req.headers.authorization?.split(' ').pop().trim();
       authenticated(token);
       return RiskCategory.find().then(rcs => rcs);
-    },
-    getPlantPart: (_parent, _args, context) => {
-      const token = context.req.headers.authorization?.split(' ').pop().trim();
-      authenticated(token);
-      return PlantPart.find().then(pps => pps);
-    },
+    } */
+    getPlantPart: (_parent, _args, context) =>
+      getInputContent(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+        () => PlantPart.find().then(pps => pps),
+      ),
+    // {
+    //   const token = context.req.headers.authorization?.split(' ').pop().trim();
+    //   authenticated(token);
+    //   return PlantPart.find().then(pps => pps);
+    // },
   },
   Mutation: {
     login: async (_parent, { email, password }) => {
