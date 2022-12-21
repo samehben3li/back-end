@@ -5,15 +5,13 @@ import addFlagMutation from '../mutation/addFlagMutation';
 
 const addFlag = async (token: string, flag: IFlag) => {
   const response = await request(server)
-    .post('/graphql')
+    .post('/')
     .send(addFlagMutation(flag))
     .set({
       Authorization: token,
     });
-  console.log(response);
-  const newFlag = response?.body?.data?.addFlag;
   server.close();
-  return newFlag;
+  return response;
 };
 
 export default addFlag;
