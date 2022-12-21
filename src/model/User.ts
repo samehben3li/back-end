@@ -15,6 +15,10 @@ const userSchema = new Schema({
     type: String,
     require: true,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export default model('User', userSchema);

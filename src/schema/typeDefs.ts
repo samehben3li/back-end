@@ -64,5 +64,6 @@ export default gql`
       plantPart: InputOption!
       location: LocationInput
     ): Flag!
+    createUser(username: String!, email: String!, password: String!): User!
   }
 `;
