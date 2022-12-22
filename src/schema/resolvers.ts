@@ -1,13 +1,15 @@
 import { IResolvers } from '@graphql-tools/utils';
 import { AuthenticationError } from 'apollo-server';
 import { sign } from 'jsonwebtoken';
-import { genSalt, hash, compare } from 'bcrypt';
+import { compare } from 'bcrypt';
 import Flag from '../model/Flag';
 import PlantPart from '../model/input-options/PlantPart';
 import RiskCategory from '../model/input-options/RiskCategory';
 import User from '../model/User';
 import authenticated from '../utils/authenticated';
 import getInputContent from '../utils/getInputContent';
+import authorization from '../utils/authorization';
+import generatePassword from '../utils/generatePassword';
 
 export default {
   Query: {
@@ -61,15 +63,12 @@ export default {
       });
       return flag;
     },
-    createUser: async (_parent, args, context) => {
-      const { username, email, password } = args;
-      const token = context.req.headers.authorization?.split(' ').pop().trim();
-      const { isAdmin } = authenticated(token);
-      if (!isAdmin) {
-        throw new AuthenticationError('NOT_AUTHORIZED');
-      }
-      const salt = await genSalt(Number(process.env.BCRYPT_SALT));
-      const hashPassword = await hash(password, salt);
+    createUser: async (_parent, { username, email, password }, context) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      const hashPassword = await generatePassword(password);
       try {
         const newUser = await User.create({
           username,
@@ -77,6 +76,39 @@ export default {
           password: hashPassword,
         });
         return newUser;
+      } catch (err) {
+        throw new AuthenticationError('SOMETHING_WENT_WRONG');
+      }
+    },
+    updateUser: async (_parent, { id, username, email, password }, context) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      try {
+        let updatedUser;
+        if (password) {
+          const hashPassword = await generatePassword(password);
+          updatedUser = await User.findByIdAndUpdate(
+            id,
+            {
+              username,
+              email,
+              password: hashPassword,
+            },
+            { new: true },
+          );
+        } else {
+          updatedUser = await User.findByIdAndUpdate(
+            id,
+            {
+              username,
+              email,
+            },
+            { new: true },
+          );
+        }
+        return updatedUser;
       } catch (err) {
         throw new AuthenticationError('SOMETHING_WENT_WRONG');
       }

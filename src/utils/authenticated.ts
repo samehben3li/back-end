@@ -12,7 +12,7 @@ export default (token: string) => {
       maxAge: '1d',
     },
   ) as JwtPayload;
-  if (!userId) {
+  if (!userId || !isAdmin) {
     throw new AuthenticationError('INVALID_TOKEN');
   }
   return { userId, isAdmin };

@@ -65,5 +65,11 @@ export default gql`
       location: LocationInput
     ): Flag!
     createUser(username: String!, email: String!, password: String!): User!
+    updateUser(
+      id: ID!
+      username: String
+      email: String
+      password: String
+    ): User!
   }
 `;
