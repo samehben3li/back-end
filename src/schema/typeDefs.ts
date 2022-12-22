@@ -73,5 +73,10 @@ export default gql`
       password: String
     ): User!
     deleteUser(id: ID!): String!
+    createRiskCategory(
+      name: String!
+      imgUrl: String!
+      riskCategoryTypes: [InputOption!]!
+    ): RiskCategory!
   }
 `;

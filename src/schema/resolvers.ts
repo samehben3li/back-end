@@ -128,5 +128,21 @@ export default {
       await User.findByIdAndDelete(id);
       return 'USER_DELETED';
     },
+    createRiskCategory: async (
+      _parent,
+      { name, imgUrl, riskCategoryTypes },
+      context,
+    ) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      const newRiskCategory = await RiskCategory.create({
+        name,
+        imgUrl,
+        riskCategoryTypes,
+      });
+      return newRiskCategory;
+    },
   },
 } as IResolvers;
