@@ -31,6 +31,13 @@ export default {
         context.req.headers.authorization?.split(' ').pop().trim(),
         () => PlantPart.find().then(pps => pps),
       ),
+    getUsers: async (_parent, _args, context) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      return User.find().then(users => users);
+    },
   },
   Mutation: {
     login: async (_parent, { email, password }) => {

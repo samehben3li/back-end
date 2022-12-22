@@ -55,6 +55,7 @@ export default gql`
     getFlags: [Flag]!
     getRiskCategories: [RiskCategory]!
     getPlantPart: [PlantPart]!
+    getUsers: [User!]!
   }
   type Mutation {
     login(email: String!, password: String!): Auth!
