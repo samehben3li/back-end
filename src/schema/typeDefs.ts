@@ -78,5 +78,6 @@ export default gql`
       imgUrl: String!
       riskCategoryTypes: [InputOption!]!
     ): RiskCategory!
+    deleteRiskCategory(id: ID!): String!
   }
 `;

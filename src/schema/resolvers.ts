@@ -144,5 +144,13 @@ export default {
       });
       return newRiskCategory;
     },
+    deleteRiskCategory: async (_parent, { id }, context) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      await RiskCategory.findByIdAndDelete(id);
+      return 'RISK_CATEGORY_DELETED';
+    },
   },
 } as IResolvers;
