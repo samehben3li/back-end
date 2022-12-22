@@ -120,5 +120,13 @@ export default {
         throw new AuthenticationError('SOMETHING_WENT_WRONG');
       }
     },
+    deleteUser: async (_parent, { id }, context) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      await User.findByIdAndDelete(id);
+      return 'USER_DELETED';
+    },
   },
 } as IResolvers;

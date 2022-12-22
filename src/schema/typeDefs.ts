@@ -72,5 +72,6 @@ export default gql`
       email: String
       password: String
     ): User!
+    deleteUser(id: ID!): String!
   }
 `;
