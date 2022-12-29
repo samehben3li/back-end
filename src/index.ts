@@ -1,17 +1,21 @@
 import { ApolloServer } from '@apollo/server';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
+import multer from 'multer';
+import path from 'path';
 import cors from 'cors';
 import { expressMiddleware } from '@apollo/server/express4';
 import express from 'express';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import typeDefs from './schema/typeDefs';
 import resolvers from './schema/resolvers';
+import uploadFile from './s3';
 
 const app = express();
 dotenv.config();
 const port = process.env.PORT || 4000;
 app.use(express.json());
+app.use(cors());
 
 const apolloServer = new ApolloServer({
   typeDefs,
@@ -35,6 +39,25 @@ const startApolloServer = async () => {
     }),
   );
 };
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'src/uploads');
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.imgName);
+  },
+});
+
+const upload = multer({ storage });
+
+app.post('/upload', upload.single('file'), async (req, res) => {
+  const { imgName } = req.body;
+  const fileName = 'risk-category/'.concat(imgName);
+  const pathOfImg = path.join(__dirname, '/uploads/', imgName);
+  const result = await uploadFile(pathOfImg, fileName);
+  res.status(200).json(result);
+});
 
 startApolloServer();
 

@@ -152,5 +152,20 @@ export default {
       await RiskCategory.findByIdAndDelete(id);
       return 'RISK_CATEGORY_DELETED';
     },
+    updateRiskCategory: async (_parent, { id, name, imgUrl }, context) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      const updatedRiskCategory = await RiskCategory.findByIdAndUpdate(
+        id,
+        {
+          name,
+          imgUrl,
+        },
+        { new: true },
+      );
+      return updatedRiskCategory;
+    },
   },
 } as IResolvers;

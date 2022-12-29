@@ -5,6 +5,7 @@ export default gql`
     id: ID!
     username: String!
     email: String!
+    isAdmin: Boolean!
   }
   type Auth {
     user: User!
@@ -79,5 +80,6 @@ export default gql`
       riskCategoryTypes: [InputOption!]!
     ): RiskCategory!
     deleteRiskCategory(id: ID!): String!
+    updateRiskCategory(id: ID!, name: String, imgUrl: String): RiskCategory!
   }
 `;
