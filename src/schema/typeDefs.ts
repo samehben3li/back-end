@@ -55,6 +55,7 @@ export default gql`
   type Query {
     getFlags: [Flag]!
     getRiskCategories: [RiskCategory]!
+    getRiskCategory(id: ID!): RiskCategory!
     getPlantPart: [PlantPart]!
     getUsers: [User!]!
     getAllFlags: [Flag!]!

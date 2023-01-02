@@ -45,6 +45,13 @@ export default {
       authorization(isAdmin);
       return Flag.find().then(flags => flags);
     },
+    getRiskCategory: async (_parent, { id }, context) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      return RiskCategory.findById(id).then(riskCategory => riskCategory);
+    },
   },
   Mutation: {
     login: async (_parent, { email, password }) => {
