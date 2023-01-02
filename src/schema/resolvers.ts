@@ -38,6 +38,13 @@ export default {
       authorization(isAdmin);
       return User.find().then(users => users);
     },
+    getAllFlags: async (_parent, _args, context) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      return Flag.find().then(flags => flags);
+    },
   },
   Mutation: {
     login: async (_parent, { email, password }) => {

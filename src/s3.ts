@@ -16,11 +16,12 @@ const s3 = new S3({
 });
 
 const uploadFile = (path: string, fileName: string) => {
-  const fileStream = fs.createReadStream(path);
+  const fileContent = fs.readFileSync(path);
   const uploadParams = {
     Bucket: bucketName,
-    Body: fileStream,
+    Body: fileContent,
     Key: fileName,
+    ContentType: 'image/svg+xml',
   };
   return s3.upload(uploadParams).promise();
 };
