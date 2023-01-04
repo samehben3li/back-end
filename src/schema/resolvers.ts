@@ -10,6 +10,7 @@ import authenticated from '../utils/authenticated';
 import getInputContent from '../utils/getInputContent';
 import authorization from '../utils/authorization';
 import generatePassword from '../utils/generatePassword';
+import generateUploadURL from '../s3';
 
 export default {
   Query: {
@@ -180,6 +181,14 @@ export default {
         { new: true },
       );
       return updatedRiskCategory;
+    },
+    getUploadURL: async (_parent, { imgName }, context) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      const uploadURL = await generateUploadURL(imgName);
+      return uploadURL;
     },
   },
 } as IResolvers;

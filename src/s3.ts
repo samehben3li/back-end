@@ -1,5 +1,4 @@
 import S3 from 'aws-sdk/clients/s3';
-import fs from 'fs';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -13,17 +12,16 @@ const s3 = new S3({
   region,
   accessKeyId,
   secretAccessKey,
+  signatureVersion: 'v4',
 });
 
-const uploadFile = (path: string, fileName: string) => {
-  const fileContent = fs.readFileSync(path);
-  const uploadParams = {
+const generateUploadURL = async (imgName: string) => {
+  const params = {
     Bucket: bucketName,
-    Body: fileContent,
-    Key: fileName,
-    ContentType: 'image/svg+xml',
+    Key: imgName,
   };
-  return s3.upload(uploadParams).promise();
+  const uploadURL = await s3.getSignedUrlPromise('putObject', params);
+  return uploadURL;
 };
 
-export default uploadFile;
+export default generateUploadURL;
