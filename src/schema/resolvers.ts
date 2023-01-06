@@ -211,5 +211,27 @@ export default {
         (newRiskCategory?.riskCategoryTypes?.length || 1) - 1;
       return newRiskCategory?.riskCategoryTypes[indexOfRiskCategoryType];
     },
+    deleteRiskCategoryType: async (
+      _parent,
+      { riskCategoryId, riskCategoryTypeId },
+      context,
+    ) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      await RiskCategory.findByIdAndUpdate(
+        riskCategoryId,
+        {
+          $pull: {
+            riskCategoryTypes: {
+              _id: riskCategoryTypeId,
+            },
+          },
+        },
+        { safe: true, multi: true },
+      );
+      return 'RISK_CATEGORY_TYPE_DELETED';
+    },
   },
 } as IResolvers;

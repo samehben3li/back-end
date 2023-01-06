@@ -88,6 +88,10 @@ export default gql`
       name: String!
       imgUrl: String!
     ): RiskCategoryType!
+    deleteRiskCategoryType(
+      riskCategoryId: ID!
+      riskCategoryTypeId: ID!
+    ): String!
     getUploadURL(imgName: String!): String!
   }
 `;
