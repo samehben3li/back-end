@@ -190,5 +190,26 @@ export default {
       const uploadURL = await generateUploadURL(imgName);
       return uploadURL;
     },
+    addRiskCategoryType: async (_parent, { id, name, imgUrl }, context) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      const newRiskCategory = await RiskCategory.findByIdAndUpdate(
+        id,
+        {
+          $push: {
+            riskCategoryTypes: {
+              name,
+              imgUrl,
+            },
+          },
+        },
+        { new: true },
+      );
+      const indexOfRiskCategoryType =
+        (newRiskCategory?.riskCategoryTypes?.length || 1) - 1;
+      return newRiskCategory?.riskCategoryTypes[indexOfRiskCategoryType];
+    },
   },
 } as IResolvers;
