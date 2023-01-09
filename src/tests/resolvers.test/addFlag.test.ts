@@ -14,13 +14,15 @@ describe('AddFlag', () => {
     let newFlag = await addFlag(token, flag);
     expect(newFlag?.body?.data).toBeTruthy();
     expect(newFlag?.body?.errors).toBeUndefined();
-    expect(newFlag?.body?.data?.addFlag).toHaveProperty('id');
-    expect(newFlag?.body?.data?.addFlag).toHaveProperty('userId');
-    expect(newFlag?.body?.data?.addFlag).toHaveProperty('createdAt');
-    expect(newFlag?.body?.data?.addFlag).toHaveProperty('location');
-    expect(newFlag?.body?.data?.addFlag).toHaveProperty('plantPart');
-    expect(newFlag?.body?.data?.addFlag).toHaveProperty('riskCategory');
-    expect(newFlag?.body?.data?.addFlag).toHaveProperty('riskCategoryType');
+    expect(newFlag?.body?.data?.addFlag).toContainKeys([
+      'id',
+      'userId',
+      'createdAt',
+      'location',
+      'plantPart',
+      'riskCategory',
+      'riskCategoryType',
+    ]);
 
     // with incorrect access token
     newFlag = await addFlag(fakeToken, flag);
