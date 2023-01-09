@@ -1,7 +1,9 @@
 import { IFlag } from './interfaces';
 
+const awsCloudFront = process.env.AWS_CLOUD_FRONT_URL;
+
 export const corretUserInfo = {
-  email: 'test@test.com',
+  email: 'test4test@test.com',
   password: 'test123',
 };
 
@@ -18,16 +20,15 @@ const fakeLocation = {
 export const flag: IFlag = {
   riskCategory: {
     name: 'PEST',
-    imgUrl: 'https://d17acd7teg556d.cloudfront.net/risk-category/pest.svg',
+    imgUrl: `${awsCloudFront}risk-category/pest.svg`,
   },
   riskCategoryType: {
     name: 'WHITE FLY',
-    imgUrl:
-      'https://d17acd7teg556d.cloudfront.net/risk-category-type/pest/WHITE-FLY.svg',
+    imgUrl: `${awsCloudFront}risk-category-type/pest/WHITE-FLY.svg`,
   },
   plantPart: {
     name: 'FRUIT',
-    imgUrl: 'https://d17acd7teg556d.cloudfront.net/plant-part/fruit.svg',
+    imgUrl: `${awsCloudFront}plant-part/fruit.svg`,
   },
   location: fakeLocation,
 };
