@@ -233,5 +233,33 @@ export default {
       );
       return 'RISK_CATEGORY_TYPE_DELETED';
     },
+    updateRiskCategoryType: async (
+      _parent,
+      { riskCategoryId, riskCategoryTypeId, name, imgUrl },
+      context,
+    ) => {
+      const { isAdmin } = authenticated(
+        context.req.headers.authorization?.split(' ').pop().trim(),
+      );
+      authorization(isAdmin);
+      const newRiskCategoryType = await RiskCategory.findOneAndUpdate(
+        {
+          _id: riskCategoryId,
+          'riskCategoryTypes._id': riskCategoryTypeId,
+        },
+        {
+          $set: {
+            'riskCategoryTypes.$.name': name,
+            'riskCategoryTypes.$.imgUrl': imgUrl,
+          },
+        },
+        {
+          new: true,
+        },
+      );
+      return newRiskCategoryType?.riskCategoryTypes?.find(
+        riskCategoryType => riskCategoryType?.id === riskCategoryTypeId,
+      );
+    },
   },
 } as IResolvers;

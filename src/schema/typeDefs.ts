@@ -92,6 +92,12 @@ export default gql`
       riskCategoryId: ID!
       riskCategoryTypeId: ID!
     ): String!
+    updateRiskCategoryType(
+      riskCategoryId: ID!
+      riskCategoryTypeId: ID!
+      name: String
+      imgUrl: String
+    ): RiskCategoryType!
     getUploadURL(imgName: String!): String!
   }
 `;
