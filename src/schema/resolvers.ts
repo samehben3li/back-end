@@ -12,6 +12,7 @@ import authorization from '../utils/authorization';
 import generatePassword from '../utils/generatePassword';
 import generateUploadURL from '../s3';
 import getAllData from '../utils/getAllData';
+import deleteData from '../utils/deleteData';
 
 export default {
   Query: {
@@ -132,14 +133,12 @@ export default {
         throw new AuthenticationError('SOMETHING_WENT_WRONG');
       }
     },
-    deleteUser: async (_parent, { id }, context) => {
-      const { isAdmin } = authenticated(
+    deleteUser: async (_parent, { id }, context) =>
+      deleteData(
         context.req.headers.authorization?.split(' ').pop().trim(),
-      );
-      authorization(isAdmin);
-      await User.findByIdAndDelete(id);
-      return 'USER_DELETED';
-    },
+        id,
+        RiskCategory,
+      ),
     createRiskCategory: async (
       _parent,
       { name, imgUrl, riskCategoryTypes },
@@ -156,14 +155,12 @@ export default {
       });
       return newRiskCategory;
     },
-    deleteRiskCategory: async (_parent, { id }, context) => {
-      const { isAdmin } = authenticated(
+    deleteRiskCategory: async (_parent, { id }, context) =>
+      deleteData(
         context.req.headers.authorization?.split(' ').pop().trim(),
-      );
-      authorization(isAdmin);
-      await RiskCategory.findByIdAndDelete(id);
-      return 'RISK_CATEGORY_DELETED';
-    },
+        id,
+        RiskCategory,
+      ),
     updateRiskCategory: async (_parent, { id, name, imgUrl }, context) => {
       const { isAdmin } = authenticated(
         context.req.headers.authorization?.split(' ').pop().trim(),
