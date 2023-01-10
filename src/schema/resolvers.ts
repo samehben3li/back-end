@@ -11,6 +11,7 @@ import getInputContent from '../utils/getInputContent';
 import authorization from '../utils/authorization';
 import generatePassword from '../utils/generatePassword';
 import generateUploadURL from '../s3';
+import getAllData from '../utils/getAllData';
 
 export default {
   Query: {
@@ -32,20 +33,16 @@ export default {
         context.req.headers.authorization?.split(' ').pop().trim(),
         () => PlantPart.find().then(pps => pps),
       ),
-    getUsers: async (_parent, _args, context) => {
-      const { isAdmin } = authenticated(
+    getUsers: async (_parent, _args, context) =>
+      getAllData(
         context.req.headers.authorization?.split(' ').pop().trim(),
-      );
-      authorization(isAdmin);
-      return User.find().then(users => users);
-    },
-    getAllFlags: async (_parent, _args, context) => {
-      const { isAdmin } = authenticated(
+        () => User.find().then(users => users),
+      ),
+    getAllFlags: async (_parent, _args, context) =>
+      getAllData(
         context.req.headers.authorization?.split(' ').pop().trim(),
-      );
-      authorization(isAdmin);
-      return Flag.find().then(flags => flags);
-    },
+        () => Flag.find().then(flags => flags),
+      ),
     getRiskCategory: async (_parent, { id }, context) => {
       const { isAdmin } = authenticated(
         context.req.headers.authorization?.split(' ').pop().trim(),
