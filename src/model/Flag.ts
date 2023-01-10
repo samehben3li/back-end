@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { IFlag } from '../interfaces';
 import InputOption from './input-options/InputOption';
 
 const locationSchema = new Schema({
@@ -14,7 +15,7 @@ const locationSchema = new Schema({
   },
 });
 
-const flagSchema = new Schema(
+const flagSchema = new Schema<IFlag>(
   {
     userId: {
       type: String,
@@ -40,4 +41,4 @@ const flagSchema = new Schema(
   { timestamps: true },
 );
 
-export default model('Flag', flagSchema);
+export default model<IFlag>('Flag', flagSchema);

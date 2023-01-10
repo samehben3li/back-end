@@ -1,6 +1,6 @@
 import request from 'supertest';
 import server from '../..';
-import { IInputOptions } from '../interfaces';
+import { IInputOptions } from '../../interfaces';
 import getPlantPartQuery from '../query/getPlantPartQuery';
 
 const getPlantPart = async (token: string): Promise<Array<IInputOptions>> => {
