@@ -1,5 +1,5 @@
 import { NextFunction } from 'express';
-import authenticated from './authenticated';
+import { authenticated } from '.';
 
 const getInputContent = (token: string, next: NextFunction) => {
   authenticated(token);
