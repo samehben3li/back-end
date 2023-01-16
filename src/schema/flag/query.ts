@@ -11,6 +11,7 @@ const flagQuery: IResolvers = {
       .sort({ createdAt: -1 })
       .then(flags => flags);
   },
+
   getAllFlags: async (_parent, _args, context) => {
     const { isAdmin } = authenticated(
       context.req.headers.authorization?.split(' ').pop().trim(),

@@ -5,18 +5,22 @@ const flagTypes = gql`
     left: [String]!
     right: [String]!
   }
+
   type Location {
     left: [String]!
     right: [String]!
   }
+
   input InputOption {
     name: String!
     imgUrl: String
   }
+
   type InputOptionType {
     name: String!
     imgUrl: String
   }
+
   type Flag {
     id: ID!
     userId: ID!
@@ -26,10 +30,12 @@ const flagTypes = gql`
     location: Location!
     createdAt: String!
   }
+
   type Query {
     getFlags: [Flag]!
     getAllFlags: [Flag]!
   }
+
   type Mutation {
     addFlag(
       riskCategory: InputOption!

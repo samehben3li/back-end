@@ -9,11 +9,13 @@ const inputQuery: IResolvers = {
       context.req.headers.authorization?.split(' ').pop().trim(),
       () => RiskCategory.find().then(rcs => rcs),
     ),
+
   getPlantPart: (_parent, _args, context) =>
     getInputContent(
       context.req.headers.authorization?.split(' ').pop().trim(),
       () => PlantPart.find().then(pps => pps),
     ),
+
   getRiskCategory: async (_parent, { id }, context) => {
     const { isAdmin } = authenticated(
       context.req.headers.authorization?.split(' ').pop().trim(),

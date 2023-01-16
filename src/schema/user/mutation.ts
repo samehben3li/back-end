@@ -21,6 +21,7 @@ const userMutation: IResolvers = {
       throw new AuthenticationError('SOMETHING_WENT_WRONG');
     }
   },
+
   updateUser: async (_parent, { id, username, email, password }, context) => {
     const { isAdmin } = authenticated(
       context.req.headers.authorization?.split(' ').pop().trim(),
@@ -54,6 +55,7 @@ const userMutation: IResolvers = {
       throw new AuthenticationError('SOMETHING_WENT_WRONG');
     }
   },
+
   deleteUser: async (_parent, { id }, context) => {
     const { isAdmin } = authenticated(
       context.req.headers.authorization?.split(' ').pop().trim(),
