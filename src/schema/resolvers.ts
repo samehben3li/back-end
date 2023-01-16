@@ -13,6 +13,7 @@ import {
   getInputContent,
 } from '../utils';
 import generateUploadURL from '../s3';
+import { accessTokenSecret } from '../config';
 
 export default {
   Query: {
@@ -68,7 +69,7 @@ export default {
       }
       const accessToken = sign(
         { userId: user.id, isAdmin: user.isAdmin },
-        process.env.ACCESS_TOKEN_SECRET as string,
+        accessTokenSecret,
         { expiresIn: '1d' },
       );
 
