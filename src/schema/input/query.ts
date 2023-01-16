@@ -1,6 +1,5 @@
 import { IResolvers } from '@graphql-tools/utils';
-import PlantPart from '../../model/input-options/PlantPart';
-import RiskCategory from '../../model/input-options/RiskCategory';
+import { RiskCategory, PlantPart } from '../../model';
 import { authenticated, authorization, getInputContent } from '../../utils';
 
 const inputQuery: IResolvers = {

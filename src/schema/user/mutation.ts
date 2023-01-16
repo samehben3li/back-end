@@ -1,6 +1,6 @@
 import { IResolvers } from '@graphql-tools/utils';
 import { AuthenticationError } from 'apollo-server-core';
-import User from '../../model/User';
+import { User } from '../../model';
 import { authenticated, authorization, generatePassword } from '../../utils';
 
 const userMutation: IResolvers = {

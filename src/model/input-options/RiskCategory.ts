@@ -12,4 +12,6 @@ const riskCategorySchema = new Schema(
   { timestamps: true },
 );
 
-export default model('RiskCategory', riskCategorySchema);
+const riskCategoryModel = model('RiskCategory', riskCategorySchema);
+
+export default riskCategoryModel;

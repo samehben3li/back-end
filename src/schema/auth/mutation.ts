@@ -3,7 +3,7 @@ import { AuthenticationError } from 'apollo-server-core';
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { accessTokenSecret } from '../../config';
-import User from '../../model/User';
+import { User } from '../../model';
 
 const authMutation: IResolvers = {
   login: async (_parent, { email, password }) => {

@@ -40,4 +40,6 @@ const flagSchema = new Schema(
   { timestamps: true },
 );
 
-export default model('Flag', flagSchema);
+const flagModel = model('Flag', flagSchema);
+
+export default flagModel;

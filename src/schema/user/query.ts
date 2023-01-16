@@ -1,5 +1,5 @@
 import { IResolvers } from '@graphql-tools/utils';
-import User from '../../model/User';
+import { User } from '../../model';
 import { authenticated, authorization } from '../../utils';
 
 const userQuery: IResolvers = {
