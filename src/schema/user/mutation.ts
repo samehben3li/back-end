@@ -1,7 +1,12 @@
 import { IResolvers } from '@graphql-tools/utils';
 import { AuthenticationError } from 'apollo-server-core';
 import User from '../../model/User';
-import { authenticated, authorization, generatePassword } from '../../utils';
+import {
+  authenticated,
+  authorization,
+  deleteData,
+  generatePassword,
+} from '../../utils';
 
 const userMutation: IResolvers = {
   createUser: async (_parent, { username, email, password }, context) => {
@@ -54,14 +59,12 @@ const userMutation: IResolvers = {
       throw new AuthenticationError('SOMETHING_WENT_WRONG');
     }
   },
-  deleteUser: async (_parent, { id }, context) => {
-    const { isAdmin } = authenticated(
+  deleteUser: (_parent, { id }, context) =>
+    deleteData(
       context.req.headers.authorization?.split(' ').pop().trim(),
-    );
-    authorization(isAdmin);
-    await User.findByIdAndDelete(id);
-    return 'USER_DELETED';
-  },
+      id,
+      User,
+    ),
 };
 
 export default userMutation;
