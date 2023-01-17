@@ -51,8 +51,14 @@ const userMutation: IResolvers = {
         );
       }
       return updatedUser;
-    } catch (err) {
-      return new Error('USER_NOT_FOUND');
+    } catch ({ ...err, kind, code }) {
+      if (kind === 'ObjectId') {
+        return new Error('USER_NOT_FOUND');
+      }
+      if (code === 11000) {
+        return new Error('INFORMATION_ALREADY_EXIST');
+      }
+      return err;
     }
   },
 
