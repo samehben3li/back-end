@@ -8,7 +8,7 @@ import { User } from '../../model';
 const authMutation: IResolvers = {
   login: async (_parent, { email, password }) => {
     const user = await User.findOne({ email: email.toLowerCase() });
-    const validatedPassword = await compare(password, user?.password as string);
+    const validatedPassword = await compare(password, user?.password || '');
     if (!user || !validatedPassword) {
       throw new AuthenticationError('INCORRECT_CREDENTIALS');
     }
