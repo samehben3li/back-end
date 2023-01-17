@@ -9,8 +9,12 @@ const deleteData = async (
 ) => {
   const { isAdmin } = authenticated(token);
   authorization(isAdmin);
-  await model.findByIdAndDelete(id);
-  return 'DATA_DELETED';
+  try {
+    await model.findByIdAndDelete(id);
+    return 'DATA_DELETED';
+  } catch (err) {
+    return new Error('DATA_NOT_FOUND');
+  }
 };
 
 export default deleteData;
