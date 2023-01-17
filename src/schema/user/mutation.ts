@@ -1,5 +1,4 @@
 import { IResolvers } from '@graphql-tools/utils';
-import { AuthenticationError } from 'apollo-server-core';
 import User from '../../model/User';
 import {
   authenticated,
@@ -23,7 +22,7 @@ const userMutation: IResolvers = {
       });
       return newUser;
     } catch (err) {
-      throw new AuthenticationError('SOMETHING_WENT_WRONG');
+      throw new Error('INFORMATION_ALREADY_EXIST');
     }
   },
   updateUser: async (_parent, { id, username, email, password }, context) => {
