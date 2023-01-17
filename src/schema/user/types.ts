@@ -1,6 +1,13 @@
 import { gql } from 'apollo-server';
 
 const userTypes = gql`
+  type User {
+    id: ID!
+    username: String!
+    email: String!
+    isAdmin: Boolean!
+  }
+
   type Query {
     getUsers: [User]!
   }
