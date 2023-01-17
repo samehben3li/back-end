@@ -6,13 +6,15 @@ import Flag from '../model/Flag';
 import PlantPart from '../model/input-options/PlantPart';
 import RiskCategory from '../model/input-options/RiskCategory';
 import User from '../model/User';
-import authenticated from '../utils/authenticated';
-import getInputContent from '../utils/getInputContent';
-import authorization from '../utils/authorization';
-import generatePassword from '../utils/generatePassword';
+import {
+  authenticated,
+  authorization,
+  deleteData,
+  generatePassword,
+  getAllData,
+  getInputContent,
+} from '../utils';
 import generateUploadURL from '../s3';
-import getAllData from '../utils/getAllData';
-import deleteData from '../utils/deleteData';
 
 export default {
   Query: {

@@ -1,6 +1,6 @@
 import { AuthenticationError } from 'apollo-server-core';
 
-const authorization = async (isAdmin: boolean) => {
+const authorization = (isAdmin: boolean) => {
   if (!isAdmin) {
     throw new AuthenticationError('NOT_AUTHORIZED');
   }
