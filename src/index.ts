@@ -5,8 +5,7 @@ import cors from 'cors';
 import { expressMiddleware } from '@apollo/server/express4';
 import express from 'express';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import typeDefs from './schema/typeDefs';
-import resolvers from './schema/resolvers';
+import { typeDefs, resolvers } from './schema';
 
 const app = express();
 dotenv.config();
