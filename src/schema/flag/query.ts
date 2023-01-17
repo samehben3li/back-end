@@ -1,6 +1,6 @@
 import { IResolvers } from '@graphql-tools/utils';
 import Flag from '../../model/Flag';
-import { authenticated, authorization } from '../../utils';
+import { authenticated, getAllData } from '../../utils';
 
 const flagQuery: IResolvers = {
   getFlags: (_parent, _args, context) => {
@@ -11,13 +11,10 @@ const flagQuery: IResolvers = {
       .sort({ createdAt: -1 })
       .then(flags => flags);
   },
-  getAllFlags: async (_parent, _args, context) => {
-    const { isAdmin } = authenticated(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-    );
-    authorization(isAdmin);
-    return Flag.find().then(flags => flags);
-  },
+  getAllFlags: (_parent, _args, context) =>
+    getAllData(context.req.headers.authorization?.split(' ').pop().trim(), () =>
+      Flag.find().then(flags => flags),
+    ),
 };
 
 export default flagQuery;
