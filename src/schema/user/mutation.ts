@@ -42,7 +42,7 @@ const userMutation: IResolvers = {
             email,
             password: hashPassword,
           },
-          { new: true },
+          { new: true, multi: false, runValidators: true },
         );
       } else {
         updatedUser = await User.findByIdAndUpdate(
@@ -51,12 +51,18 @@ const userMutation: IResolvers = {
             username,
             email,
           },
-          { new: true },
+          { new: true, multi: false, runValidators: true },
         );
       }
       return updatedUser;
-    } catch (err) {
-      throw new AuthenticationError('SOMETHING_WENT_WRONG');
+    } catch ({ ...err, kind, code }) {
+      if (kind === 'ObjectId') {
+        return new Error('USER_NOT_FOUND');
+      }
+      if (code === 11000) {
+        return new Error('INFORMATION_ALREADY_EXIST');
+      }
+      return err;
     }
   },
   deleteUser: (_parent, { id }, context) =>
