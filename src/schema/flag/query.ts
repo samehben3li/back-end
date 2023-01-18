@@ -12,12 +12,15 @@ const flagQuery: IResolvers = {
       .then(flags => flags);
   },
 
-  getAllFlags: async (_parent, _args, context) => {
+  getAllFlags: async (_parent, { page = 1, limit = 10 }, context) => {
     const { isAdmin } = authenticated(
       context.req.headers.authorization?.split(' ').pop().trim(),
     );
     authorization(isAdmin);
-    return Flag.find().then(flags => flags);
+    return Flag.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .then(flags => flags);
   },
 };
 

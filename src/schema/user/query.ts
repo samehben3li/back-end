@@ -3,7 +3,7 @@ import { User } from '../../model';
 import { authenticated, authorization } from '../../utils';
 
 const userQuery: IResolvers = {
-  getUsers: async (_parent, { page = 1, limit = 1 }, context) => {
+  getUsers: async (_parent, { page = 1, limit = 10 }, context) => {
     const { isAdmin } = authenticated(
       context.req.headers.authorization?.split(' ').pop().trim(),
     );
