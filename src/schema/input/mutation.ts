@@ -4,10 +4,9 @@ import generateUploadURL from '../../s3';
 import {
   addRiskCategoryType,
   adminPermission,
-  authenticated,
-  authorization,
   deleteData,
   deleteRiskCategoryType,
+  updateRiskCategoryType,
 } from '../../utils';
 
 const inputMutation: IResolvers = {
@@ -62,30 +61,17 @@ const inputMutation: IResolvers = {
     _parent,
     { riskCategoryId, riskCategoryTypeId, name, imgUrl },
     context,
-  ) => {
-    const { isAdmin } = authenticated(
+  ) =>
+    adminPermission(
       context.req.headers.authorization?.split(' ').pop().trim(),
-    );
-    authorization(isAdmin);
-    const newRiskCategoryType = await RiskCategory.findOneAndUpdate(
-      {
-        _id: riskCategoryId,
-        'riskCategoryTypes._id': riskCategoryTypeId,
-      },
-      {
-        $set: {
-          'riskCategoryTypes.$.name': name,
-          'riskCategoryTypes.$.imgUrl': imgUrl,
-        },
-      },
-      {
-        new: true,
-      },
-    );
-    return newRiskCategoryType?.riskCategoryTypes?.find(
-      riskCategoryType => riskCategoryType?.id === riskCategoryTypeId,
-    );
-  },
+      () =>
+        updateRiskCategoryType(
+          riskCategoryId,
+          riskCategoryTypeId,
+          name,
+          imgUrl,
+        ),
+    ),
   getUploadURL: async (_parent, { imgName }, context) =>
     adminPermission(
       context.req.headers.authorization?.split(' ').pop().trim(),
