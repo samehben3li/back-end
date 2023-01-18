@@ -113,14 +113,11 @@ const inputMutation: IResolvers = {
       riskCategoryType => riskCategoryType?.id === riskCategoryTypeId,
     );
   },
-  getUploadURL: async (_parent, { imgName }, context) => {
-    const { isAdmin } = authenticated(
+  getUploadURL: async (_parent, { imgName }, context) =>
+    adminPermission(
       context.req.headers.authorization?.split(' ').pop().trim(),
-    );
-    authorization(isAdmin);
-    const uploadURL = await generateUploadURL(imgName);
-    return uploadURL;
-  },
+      () => generateUploadURL(imgName).then(uploadURL => uploadURL),
+    ),
 };
 
 export default inputMutation;
