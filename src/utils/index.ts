@@ -6,3 +6,4 @@ export { default as getInputContent } from './getInputContent';
 export { default as adminPermission } from './adminPermission';
 export { default as createUser } from './createUser';
 export { default as updateUser } from './updateUser';
+export { default as addRiskCategoryType } from './addRiskCategoryType';

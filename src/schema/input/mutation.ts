@@ -2,6 +2,7 @@ import { IResolvers } from '@graphql-tools/utils';
 import RiskCategory from '../../model/input-options/RiskCategory';
 import generateUploadURL from '../../s3';
 import {
+  addRiskCategoryType,
   adminPermission,
   authenticated,
   authorization,
@@ -39,30 +40,14 @@ const inputMutation: IResolvers = {
             name,
             imgUrl,
           },
-          { new: true },
+          { new: true, multi: false, runValidators: true },
         ).then(riskCategory => riskCategory),
     ),
-  addRiskCategoryType: async (_parent, { id, name, imgUrl }, context) => {
-    const { isAdmin } = authenticated(
+  addRiskCategoryType: async (_parent, { id, name, imgUrl }, context) =>
+    adminPermission(
       context.req.headers.authorization?.split(' ').pop().trim(),
-    );
-    authorization(isAdmin);
-    const newRiskCategory = await RiskCategory.findByIdAndUpdate(
-      id,
-      {
-        $push: {
-          riskCategoryTypes: {
-            name,
-            imgUrl,
-          },
-        },
-      },
-      { new: true },
-    );
-    const indexOfRiskCategoryType =
-      (newRiskCategory?.riskCategoryTypes?.length || 1) - 1;
-    return newRiskCategory?.riskCategoryTypes[indexOfRiskCategoryType];
-  },
+      () => addRiskCategoryType(id, name, imgUrl),
+    ),
   deleteRiskCategoryType: async (
     _parent,
     { riskCategoryId, riskCategoryTypeId },
