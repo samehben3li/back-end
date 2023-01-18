@@ -1,14 +1,29 @@
 import { IResolvers } from '@graphql-tools/utils';
 import RiskCategory from '../../model/input-options/RiskCategory';
 import generateUploadURL from '../../s3';
-import { authenticated, authorization, deleteData } from '../../utils';
+import {
+  adminPermission,
+  authenticated,
+  authorization,
+  deleteData,
+} from '../../utils';
 
 const inputMutation: IResolvers = {
   createRiskCategory: async (
     _parent,
     { name, imgUrl, riskCategoryTypes },
     context,
-  ) => {
+  ) =>
+    adminPermission(
+      context.req.headers.authorization?.split(' ').pop().trim(),
+      () =>
+        RiskCategory.create({
+          name,
+          imgUrl,
+          riskCategoryTypes,
+        }).then(riskCategory => riskCategory),
+    ),
+  /* {
     const { isAdmin } = authenticated(
       context.req.headers.authorization?.split(' ').pop().trim(),
     );
@@ -19,7 +34,7 @@ const inputMutation: IResolvers = {
       riskCategoryTypes,
     });
     return newRiskCategory;
-  },
+  }, */
   deleteRiskCategory: (_parent, { id }, context) =>
     deleteData(
       context.req.headers.authorization?.split(' ').pop().trim(),
