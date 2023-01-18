@@ -8,7 +8,7 @@ const userTypes = gql`
     isAdmin: Boolean!
   }
   type Query {
-    getUsers: [User]!
+    getUsers(page: Int, limit: Int): [User]!
   }
   type Mutation {
     createUser(username: String!, email: String!, password: String!): User!

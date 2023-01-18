@@ -1,11 +1,16 @@
 import { IResolvers } from '@graphql-tools/utils';
 import User from '../../model/User';
-import { getAllData } from '../../utils';
+import { adminPermission } from '../../utils';
 
 const userQuery: IResolvers = {
-  getUsers: (_parent, _args, context) =>
-    getAllData(context.req.headers.authorization?.split(' ').pop().trim(), () =>
-      User.find().then(users => users),
+  getUsers: (_parent, { page = 1, limit = 10 }, context) =>
+    adminPermission(
+      context.req.headers.authorization?.split(' ').pop().trim(),
+      () =>
+        User.find()
+          .skip((page - 1) * limit)
+          .limit(limit)
+          .then(users => users),
     ),
 };
 

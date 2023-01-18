@@ -28,7 +28,7 @@ const flagTypes = gql`
   }
   type Query {
     getFlags: [Flag]!
-    getAllFlags: [Flag]!
+    getAllFlags(page: Int, limit: Int): [Flag]!
   }
   type Mutation {
     addFlag(
