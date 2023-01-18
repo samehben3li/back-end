@@ -7,6 +7,7 @@ import {
   authenticated,
   authorization,
   deleteData,
+  deleteRiskCategoryType,
 } from '../../utils';
 
 const inputMutation: IResolvers = {
@@ -52,24 +53,11 @@ const inputMutation: IResolvers = {
     _parent,
     { riskCategoryId, riskCategoryTypeId },
     context,
-  ) => {
-    const { isAdmin } = authenticated(
+  ) =>
+    adminPermission(
       context.req.headers.authorization?.split(' ').pop().trim(),
-    );
-    authorization(isAdmin);
-    await RiskCategory.findByIdAndUpdate(
-      riskCategoryId,
-      {
-        $pull: {
-          riskCategoryTypes: {
-            _id: riskCategoryTypeId,
-          },
-        },
-      },
-      { safe: true, multi: true },
-    );
-    return 'RISK_CATEGORY_TYPE_DELETED';
-  },
+      () => deleteRiskCategoryType(riskCategoryId, riskCategoryTypeId),
+    ),
   updateRiskCategoryType: async (
     _parent,
     { riskCategoryId, riskCategoryTypeId, name, imgUrl },
