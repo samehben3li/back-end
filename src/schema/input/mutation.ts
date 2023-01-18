@@ -23,39 +23,25 @@ const inputMutation: IResolvers = {
           riskCategoryTypes,
         }).then(riskCategory => riskCategory),
     ),
-  /* {
-    const { isAdmin } = authenticated(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-    );
-    authorization(isAdmin);
-    const newRiskCategory = await RiskCategory.create({
-      name,
-      imgUrl,
-      riskCategoryTypes,
-    });
-    return newRiskCategory;
-  }, */
   deleteRiskCategory: (_parent, { id }, context) =>
     deleteData(
       context.req.headers.authorization?.split(' ').pop().trim(),
       id,
       RiskCategory,
     ),
-  updateRiskCategory: async (_parent, { id, name, imgUrl }, context) => {
-    const { isAdmin } = authenticated(
+  updateRiskCategory: async (_parent, { id, name, imgUrl }, context) =>
+    adminPermission(
       context.req.headers.authorization?.split(' ').pop().trim(),
-    );
-    authorization(isAdmin);
-    const updatedRiskCategory = await RiskCategory.findByIdAndUpdate(
-      id,
-      {
-        name,
-        imgUrl,
-      },
-      { new: true },
-    );
-    return updatedRiskCategory;
-  },
+      () =>
+        RiskCategory.findByIdAndUpdate(
+          id,
+          {
+            name,
+            imgUrl,
+          },
+          { new: true },
+        ).then(riskCategory => riskCategory),
+    ),
   addRiskCategoryType: async (_parent, { id, name, imgUrl }, context) => {
     const { isAdmin } = authenticated(
       context.req.headers.authorization?.split(' ').pop().trim(),
