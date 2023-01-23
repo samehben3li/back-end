@@ -1,11 +1,7 @@
 import { IResolvers } from '@graphql-tools/utils';
+import { createUser, updateUser } from '../../controllers/userController';
 import User from '../../model/User';
-import {
-  adminPermission,
-  createUser,
-  deleteData,
-  updateUser,
-} from '../../utils';
+import { adminPermission, deleteData } from '../../utils';
 
 const userMutation: IResolvers = {
   createUser: async (_parent, { username, email, password }, context) =>

@@ -1,7 +1,31 @@
-import { generatePassword } from '.';
+import { generatePassword } from '../utils';
 import User from '../model/User';
 
-const updateUser = async (
+export const getUsers = (page: number, limit: number) =>
+  User.find()
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .then(users => users);
+
+export const createUser = async (
+  username: string,
+  email: string,
+  password: string,
+) => {
+  const hashPassword = await generatePassword(password);
+  try {
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashPassword,
+    });
+    return newUser;
+  } catch (err) {
+    throw new Error('INFORMATION_ALREADY_EXIST');
+  }
+};
+
+export const updateUser = async (
   id: string,
   username: string,
   email: string,
@@ -41,5 +65,3 @@ const updateUser = async (
     return err;
   }
 };
-
-export default updateUser;
