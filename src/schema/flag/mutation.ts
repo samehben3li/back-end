@@ -1,5 +1,5 @@
 import { IResolvers } from '@graphql-tools/utils';
-import Flag from '../../model/Flag';
+import { Flag } from '../../model';
 import { authenticated } from '../../utils';
 
 const flagMutation: IResolvers = {

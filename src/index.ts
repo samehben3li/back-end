@@ -1,15 +1,13 @@
 import { ApolloServer } from '@apollo/server';
-import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import cors from 'cors';
 import { expressMiddleware } from '@apollo/server/express4';
 import express from 'express';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { typeDefs, resolvers } from './schema';
+import { port, mongoURI } from './config';
 
 const app = express();
-dotenv.config();
-const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use(cors());
 
@@ -21,7 +19,7 @@ const apolloServer = new ApolloServer({
 });
 
 const connect = async () => {
-  await mongoose.connect(process.env.MONGO_URI as string);
+  await mongoose.connect(mongoURI);
   console.log('connected to database');// eslint-disable-line
 };
 

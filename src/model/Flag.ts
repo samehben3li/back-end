@@ -41,4 +41,6 @@ const flagSchema = new Schema<IFlag>(
   { timestamps: true },
 );
 
-export default model<IFlag>('Flag', flagSchema);
+const flagModel = model<IFlag>('Flag', flagSchema);
+
+export default flagModel;

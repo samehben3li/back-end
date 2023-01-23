@@ -7,10 +7,12 @@ const authTypes = gql`
     email: String!
     isAdmin: Boolean!
   }
+
   type Auth {
     user: User!
     accessToken: ID!
   }
+
   type Mutation {
     login(email: String!, password: String!): Auth!
   }

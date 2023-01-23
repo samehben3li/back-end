@@ -1,5 +1,5 @@
 import { IResolvers } from '@graphql-tools/utils';
-import RiskCategory from '../../model/input-options/RiskCategory';
+import { RiskCategory } from '../../model';
 import generateUploadURL from '../../s3';
 import { authenticated, authorization, deleteData } from '../../utils';
 

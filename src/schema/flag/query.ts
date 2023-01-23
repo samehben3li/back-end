@@ -11,9 +11,12 @@ const flagQuery: IResolvers = {
       .sort({ createdAt: -1 })
       .then(flags => flags);
   },
-  getAllFlags: (_parent, _args, context) =>
+  getAllFlags: (_parent, { page = 1, limit = 10 }, context) =>
     getAllData(context.req.headers.authorization?.split(' ').pop().trim(), () =>
-      Flag.find().then(flags => flags),
+      Flag.find()
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .then(flags => flags),
     ),
 };
 
