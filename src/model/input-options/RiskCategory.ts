@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import { IRiskCategory } from '../../interfaces';
 import InputOption from './InputOption';
 
 const riskCategorySchema = new Schema(
@@ -12,6 +13,9 @@ const riskCategorySchema = new Schema(
   { timestamps: true },
 );
 
-const riskCategoryModel = model('RiskCategory', riskCategorySchema);
+const riskCategoryModel = model<IRiskCategory>(
+  'RiskCategory',
+  riskCategorySchema,
+);
 
 export default riskCategoryModel;

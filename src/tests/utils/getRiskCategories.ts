@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { IRiskCategory } from '../interfaces';
+import { IRiskCategory } from '../../interfaces';
 import server from '../..';
 import getRiskCategoriesQuery from '../query/getRiskCategoriesQuery';
 
