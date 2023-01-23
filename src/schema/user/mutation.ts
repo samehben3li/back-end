@@ -1,5 +1,5 @@
 import { IResolvers } from '@graphql-tools/utils';
-import { createUser, updateUser } from '../../controllers/userController';
+import { createUser, updateUser } from '../../controllers';
 import User from '../../model/User';
 import { adminPermission, deleteData } from '../../utils';
 

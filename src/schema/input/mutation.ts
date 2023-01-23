@@ -1,13 +1,12 @@
 import { IResolvers } from '@graphql-tools/utils';
-import RiskCategory from '../../model/input-options/RiskCategory';
-import generateUploadURL from '../../s3';
 import {
   addRiskCategoryType,
-  adminPermission,
-  deleteData,
   deleteRiskCategoryType,
   updateRiskCategoryType,
-} from '../../utils';
+} from '../../controllers';
+import RiskCategory from '../../model/input-options/RiskCategory';
+import generateUploadURL from '../../s3';
+import { adminPermission, deleteData } from '../../utils';
 
 const inputMutation: IResolvers = {
   createRiskCategory: async (

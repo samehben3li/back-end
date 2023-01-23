@@ -1,5 +1,5 @@
 import { IResolvers } from '@graphql-tools/utils';
-import { getUsers } from '../../controllers/userController';
+import { getUsers } from '../../controllers';
 import { adminPermission } from '../../utils';
 
 const userQuery: IResolvers = {
