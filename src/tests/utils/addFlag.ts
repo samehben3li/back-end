@@ -1,6 +1,6 @@
 import request from 'supertest';
 import server from '../..';
-import { IFlag } from '../interfaces';
+import { IFlag } from '../../interfaces';
 import addFlagMutation from '../mutation/addFlagMutation';
 
 const addFlag = async (token: string, flag: IFlag) => {

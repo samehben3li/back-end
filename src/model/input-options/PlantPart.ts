@@ -8,4 +8,6 @@ const plantPartSchema = new Schema(
   { timestamps: true },
 );
 
-export default model('PlantPart', plantPartSchema);
+const plantPartModel = model('PlantPart', plantPartSchema);
+
+export default plantPartModel;

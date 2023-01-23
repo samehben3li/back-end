@@ -1,9 +1,8 @@
-import { IFlag } from './interfaces';
-
-const awsCloudFront = process.env.AWS_CLOUD_FRONT_URL;
+import { awsCloudFront } from '../config';
+import { IFlag } from '../interfaces';
 
 export const corretUserInfo = {
-  email: 'test4test@test.com',
+  email: 'test@test.com',
   password: 'test123',
 };
 

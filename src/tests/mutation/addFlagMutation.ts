@@ -1,4 +1,4 @@
-import { IFlag } from '../interfaces';
+import { IFlag } from '../../interfaces';
 
 const addFlagMutation = (flag: IFlag) => ({
   query: `
