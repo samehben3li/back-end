@@ -67,22 +67,36 @@ export const updateRiskCategoryType = async (
   name: string,
   imgUrl: string,
 ) => {
-  const newRiskCategoryType = await RiskCategory.findOneAndUpdate(
-    {
-      _id: riskCategoryId,
-      'riskCategoryTypes._id': riskCategoryTypeId,
-    },
-    {
-      $set: {
-        'riskCategoryTypes.$.name': name,
-        'riskCategoryTypes.$.imgUrl': imgUrl,
+  try {
+    const newRiskCategoryType = await RiskCategory.findOneAndUpdate(
+      {
+        _id: riskCategoryId,
+        'riskCategoryTypes._id': riskCategoryTypeId,
       },
-    },
-    {
-      new: true,
-    },
-  );
-  return newRiskCategoryType?.riskCategoryTypes?.find(
-    riskCategoryType => riskCategoryType?.id === riskCategoryTypeId,
-  );
+      {
+        $set: {
+          'riskCategoryTypes.$.name': name,
+          'riskCategoryTypes.$.imgUrl': imgUrl,
+        },
+      },
+      {
+        new: true,
+      },
+    );
+    if (!newRiskCategoryType) {
+      throw new Error('RISK_CATEGORY_NOT_FOUND');
+    }
+    if (
+      !newRiskCategoryType.riskCategoryTypes.find(
+        riskCategoryType => riskCategoryType.id === riskCategoryTypeId,
+      )
+    ) {
+      throw new Error('RISK_CATEGORY_TYPE_NOT_FOUND');
+    }
+    return newRiskCategoryType.riskCategoryTypes.find(
+      riskCategoryType => riskCategoryType?.id === riskCategoryTypeId,
+    );
+  } catch (err) {
+    return err;
+  }
 };
