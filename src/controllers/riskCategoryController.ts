@@ -5,21 +5,28 @@ export const addRiskCategoryType = async (
   name: string,
   imgUrl: string,
 ) => {
-  const newRiskCategory = await RiskCategory.findByIdAndUpdate(
-    id,
-    {
-      $push: {
-        riskCategoryTypes: {
-          name,
-          imgUrl,
+  try {
+    const newRiskCategory = await RiskCategory.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          riskCategoryTypes: {
+            name,
+            imgUrl,
+          },
         },
       },
-    },
-    { new: true },
-  );
-  const indexOfRiskCategoryType =
-    (newRiskCategory?.riskCategoryTypes?.length || 1) - 1;
-  return newRiskCategory?.riskCategoryTypes[indexOfRiskCategoryType];
+      { new: true },
+    );
+    if (!newRiskCategory) {
+      throw new Error('RISK_CATEGORY_NOT_FOUND');
+    }
+    const indexOfRiskCategoryType =
+      newRiskCategory.riskCategoryTypes.length - 1;
+    return newRiskCategory.riskCategoryTypes[indexOfRiskCategoryType];
+  } catch (err) {
+    return err;
+  }
 };
 
 export const deleteRiskCategoryType = async (
