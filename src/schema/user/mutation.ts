@@ -1,5 +1,6 @@
 import { IResolvers } from '@graphql-tools/utils';
 import { createUser, updateUser } from '../../controllers';
+import { IUser } from '../../interfaces';
 import User from '../../model/User';
 import { adminPermission, deleteData } from '../../utils';
 
@@ -9,10 +10,10 @@ const userMutation: IResolvers = {
       context.req.headers.authorization?.split(' ').pop().trim(),
       () => createUser(username, email, password),
     ),
-  updateUser: async (_parent, { id, username, email, password }, context) =>
+  updateUser: async (_parent, args: IUser, context) =>
     adminPermission(
       context.req.headers.authorization?.split(' ').pop().trim(),
-      () => updateUser(id, username, email, password),
+      () => updateUser(args),
     ),
   deleteUser: (_parent, { id }, context) =>
     deleteData(

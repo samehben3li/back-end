@@ -1,5 +1,6 @@
 import { generatePassword } from '../utils';
 import User from '../model/User';
+import { IUser } from '../interfaces';
 
 export const getUsers = (page: number, limit: number) =>
   User.find()
@@ -31,43 +32,28 @@ export const createUser = async (
   }
 };
 
-export const updateUser = async (
-  id: string,
-  username: string,
-  email: string,
-  password: string,
-) => {
+export const updateUser = async ({ id, password, ...userInfo }: IUser) => {
   try {
-    let updatedUser;
-    if (password) {
-      const hashPassword = await generatePassword(password);
-      updatedUser = await User.findByIdAndUpdate(
-        id,
-        {
-          username,
-          email,
-          password: hashPassword,
-        },
-        { new: true, multi: false, runValidators: true },
-      );
-    } else {
-      updatedUser = await User.findByIdAndUpdate(
-        id,
-        {
-          username,
-          email,
-        },
-        { new: true, multi: false, runValidators: true },
-      );
+    const hashPassword = password
+      ? await generatePassword(password)
+      : undefined;
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        password: hashPassword,
+        ...userInfo,
+      },
+      { new: true, multi: false, runValidators: true },
+    );
+    if (!updatedUser) {
+      throw new Error('USER_NOT_FOUND');
     }
     return updatedUser;
-  } catch ({ kind, code, ...err }) {
-    if (kind === 'ObjectId') {
-      return new Error('USER_NOT_FOUND');
-    }
-    if (code === 11000) {
-      return new Error('INFORMATION_ALREADY_EXIST');
-    }
-    return err;
+  } catch ({ codeName, message }) {
+    return new Error(
+      codeName === 'DuplicateKey'
+        ? 'INFORMATION_ALREADY_EXIST'
+        : 'USER_NOT_FOUND',
+    );
   }
 };
