@@ -55,7 +55,7 @@ export const updateUser = async (
       );
     }
     return updatedUser;
-  } catch ({ ...err, kind, code }) {
+  } catch ({ kind, code, ...err }) {
     if (kind === 'ObjectId') {
       return new Error('USER_NOT_FOUND');
     }
