@@ -33,18 +33,32 @@ export const deleteRiskCategoryType = async (
   riskCategoryId: string,
   riskCategoryTypeId: string,
 ) => {
-  await RiskCategory.findByIdAndUpdate(
-    riskCategoryId,
-    {
-      $pull: {
-        riskCategoryTypes: {
-          _id: riskCategoryTypeId,
+  try {
+    const riskCategory = await RiskCategory.findByIdAndUpdate(
+      riskCategoryId,
+      {
+        $pull: {
+          riskCategoryTypes: {
+            _id: riskCategoryTypeId,
+          },
         },
       },
-    },
-    { safe: true, multi: true },
-  );
-  return 'RISK_CATEGORY_TYPE_DELETED';
+      { safe: true, multi: true },
+    );
+    if (!riskCategory) {
+      throw new Error('RISK_CATEGORY_NOT_FOUND');
+    }
+    if (
+      !riskCategory.riskCategoryTypes.find(
+        riskCategoryType => riskCategoryType.id === riskCategoryTypeId,
+      )
+    ) {
+      throw new Error('RISK_CATEGORY_TYPE_NOT_FOUND');
+    }
+    return 'RISK_CATEGORY_TYPE_DELETED';
+  } catch (err) {
+    return err;
+  }
 };
 
 export const updateRiskCategoryType = async (
