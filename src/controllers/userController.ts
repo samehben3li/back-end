@@ -5,7 +5,13 @@ export const getUsers = (page: number, limit: number) =>
   User.find()
     .skip((page - 1) * limit)
     .limit(limit)
-    .then(users => users);
+    .then(users => {
+      if (!users || users.length === 0) {
+        throw new Error('USERS_NOT_FOUND');
+      }
+      return users;
+    })
+    .catch(err => err);
 
 export const createUser = async (
   username: string,
