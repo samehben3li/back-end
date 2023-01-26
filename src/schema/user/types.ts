@@ -9,7 +9,7 @@ const userTypes = gql`
   }
 
   type Query {
-    getUsers(page: Int, limit: Int): [User]!
+    getUsers(page: Int, limit: Int): [User!]!
   }
 
   type Mutation {

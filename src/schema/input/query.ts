@@ -1,6 +1,6 @@
 import { IResolvers } from '@graphql-tools/utils';
 import { RiskCategory, PlantPart } from '../../model';
-import { authenticated, authorization, getInputContent } from '../../utils';
+import { adminPermission, getInputContent } from '../../utils';
 
 const inputQuery: IResolvers = {
   getRiskCategories: (_parent, _args, context) =>
@@ -14,14 +14,11 @@ const inputQuery: IResolvers = {
       context.req.headers.authorization?.split(' ').pop().trim(),
       () => PlantPart.find().then(pps => pps),
     ),
-
-  getRiskCategory: async (_parent, { id }, context) => {
-    const { isAdmin } = authenticated(
+  getRiskCategory: async (_parent, { id }, context) =>
+    adminPermission(
       context.req.headers.authorization?.split(' ').pop().trim(),
-    );
-    authorization(isAdmin);
-    return RiskCategory.findById(id).then(riskCategory => riskCategory);
-  },
+      () => RiskCategory.findById(id).then(riskCategory => riskCategory),
+    ),
 };
 
 export default inputQuery;

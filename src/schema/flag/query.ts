@@ -1,6 +1,6 @@
 import { IResolvers } from '@graphql-tools/utils';
 import { Flag } from '../../model';
-import { authenticated, getAllData } from '../../utils';
+import { adminPermission, authenticated } from '../../utils';
 
 const flagQuery: IResolvers = {
   getFlags: (_parent, _args, context) => {
@@ -12,11 +12,13 @@ const flagQuery: IResolvers = {
       .then(flags => flags);
   },
   getAllFlags: (_parent, { page = 1, limit = 10 }, context) =>
-    getAllData(context.req.headers.authorization?.split(' ').pop().trim(), () =>
-      Flag.find()
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .then(flags => flags),
+    adminPermission(
+      context.req.headers.authorization?.split(' ').pop().trim(),
+      () =>
+        Flag.find()
+          .skip((page - 1) * limit)
+          .limit(limit)
+          .then(flags => flags),
     ),
 };
 
