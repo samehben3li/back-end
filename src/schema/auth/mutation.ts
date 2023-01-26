@@ -13,7 +13,7 @@ const authMutation: IResolvers = {
       throw new AuthenticationError('INCORRECT_CREDENTIALS');
     }
     const accessToken = sign(
-      { userId: user?.id, isAdmin: user.isAdmin },
+      { userId: user.id, isAdmin: user.isAdmin },
       accessTokenSecret,
       { expiresIn: '1d' },
     );
