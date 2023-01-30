@@ -1,3 +1,4 @@
+import { IInputOptions } from '../interfaces';
 import RiskCategory from '../model/input-options/RiskCategory';
 
 export const addRiskCategoryType = async (
@@ -61,42 +62,41 @@ export const deleteRiskCategoryType = async (
   }
 };
 
-export const updateRiskCategoryType = async (
+const optionsOfUpdateType = (
   riskCategoryId: string,
   riskCategoryTypeId: string,
-  name: string,
-  imgUrl: string,
+  { name, imgUrl }: IInputOptions,
 ) => {
-  try {
-    const newRiskCategoryType = await RiskCategory.findOneAndUpdate(
-      {
-        _id: riskCategoryId,
-        'riskCategoryTypes._id': riskCategoryTypeId,
-      },
-      {
-        $set: {
-          'riskCategoryTypes.$.name': name,
-          'riskCategoryTypes.$.imgUrl': imgUrl,
-        },
-      },
-      {
-        new: true,
-      },
-    );
-    if (!newRiskCategoryType) {
-      throw new Error('RISK_CATEGORY_NOT_FOUND');
-    }
-    if (
-      !newRiskCategoryType.riskCategoryTypes.find(
-        riskCategoryType => riskCategoryType.id === riskCategoryTypeId,
-      )
-    ) {
-      throw new Error('RISK_CATEGORY_TYPE_NOT_FOUND');
-    }
-    return newRiskCategoryType.riskCategoryTypes.find(
-      riskCategoryType => riskCategoryType?.id === riskCategoryTypeId,
-    );
-  } catch (err) {
-    return err;
-  }
+  const query = {
+    _id: riskCategoryId,
+    'riskCategoryTypes._id': riskCategoryTypeId,
+  };
+  const update = {
+    $set: {
+      'riskCategoryTypes.$.name': name,
+      'riskCategoryTypes.$.imgUrl': imgUrl,
+    },
+  };
+  const options = { new: true, multi: false, runValidators: true };
+  return { query, update, options };
+};
+
+export const updateRiskCategoryType = (
+  riskCategoryId: string,
+  riskCategoryTypeId: string,
+  riskCategoryType: IInputOptions,
+) => {
+  const { query, update, options } = optionsOfUpdateType(
+    riskCategoryId,
+    riskCategoryTypeId,
+    riskCategoryType,
+  );
+  return RiskCategory.findOneAndUpdate(query, update, options)
+    .then(riskCategory => {
+      if (!riskCategory) throw new Error('RISK_CATEGORY_NOT_FOUND');
+      return riskCategory.riskCategoryTypes.find(
+        rct => rct.id === riskCategoryTypeId,
+      );
+    })
+    .catch(err => err);
 };

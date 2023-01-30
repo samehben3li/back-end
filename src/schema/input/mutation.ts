@@ -58,7 +58,7 @@ const inputMutation: IResolvers = {
     ),
   updateRiskCategoryType: async (
     _parent,
-    { riskCategoryId, riskCategoryTypeId, name, imgUrl },
+    { riskCategoryId, riskCategoryTypeId, riskCategoryType },
     context,
   ) =>
     adminPermission(
@@ -67,8 +67,7 @@ const inputMutation: IResolvers = {
         updateRiskCategoryType(
           riskCategoryId,
           riskCategoryTypeId,
-          name,
-          imgUrl,
+          riskCategoryType,
         ),
     ),
   getUploadURL: async (_parent, { imgName }, context) =>

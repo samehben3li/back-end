@@ -21,7 +21,7 @@ const inputTypes = gql`
   }
 
   input InputOption {
-    name: String!
+    name: String
     imgUrl: String
   }
 
@@ -56,8 +56,7 @@ const inputTypes = gql`
     updateRiskCategoryType(
       riskCategoryId: ID!
       riskCategoryTypeId: ID!
-      name: String
-      imgUrl: String
+      riskCategoryType: InputOption
     ): RiskCategoryType!
 
     getUploadURL(imgName: String!): String!
