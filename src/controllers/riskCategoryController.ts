@@ -49,13 +49,17 @@ export const deleteRiskCategoryType = async (
   const { deleteQuery, options } = optionOfDeleteType(riskCategoryTypeId);
   return RiskCategory.findByIdAndUpdate(riskCategoryId, deleteQuery, options)
     .then(riskCategory => {
-      if (!riskCategory) throw new Error('RISK_CATEGORY_NOT_FOUND');
+      if (!riskCategory) {
+        throw new Error('RISK_CATEGORY_NOT_FOUND');
+      }
       return riskCategory.riskCategoryTypes.find(
         riskCategoryType => riskCategoryType.id === riskCategoryTypeId,
       );
     })
     .then(riskCategoryType => {
-      if (!riskCategoryType) throw new Error('RISK_CATEGORY_TYPE_NOT_FOUND');
+      if (!riskCategoryType) {
+        throw new Error('RISK_CATEGORY_TYPE_NOT_FOUND');
+      }
       return 'RISK_CATEGORY_TYPE_DELETED';
     })
     .catch(err => err);
@@ -92,7 +96,9 @@ export const updateRiskCategoryType = (
   );
   return RiskCategory.findOneAndUpdate(query, update, options)
     .then(riskCategory => {
-      if (!riskCategory) throw new Error('RISK_CATEGORY_NOT_FOUND');
+      if (!riskCategory) {
+        throw new Error('RISK_CATEGORY_NOT_FOUND');
+      }
       return riskCategory.riskCategoryTypes.find(
         rct => rct.id === riskCategoryTypeId,
       );
