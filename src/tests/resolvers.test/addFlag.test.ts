@@ -1,7 +1,6 @@
 import server from '../..';
 import { flag } from '../data';
-import addFlag from '../utils/addFlag';
-import getTokens from '../utils/getTokens';
+import { getTokens, addFlag } from '../utils';
 
 describe('AddFlag', () => {
   afterAll(async () => {

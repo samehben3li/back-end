@@ -1,6 +1,5 @@
 import server from '../..';
-import getRiskCategories from '../utils/getRiskCategories';
-import getTokens from '../utils/getTokens';
+import { getTokens, getRiskCategories } from '../utils';
 
 describe('GetRiskCategories', () => {
   afterAll(async () => {

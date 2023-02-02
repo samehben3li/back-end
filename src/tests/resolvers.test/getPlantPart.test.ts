@@ -1,6 +1,5 @@
 import server from '../..';
-import getPlantPart from '../utils/getPlantPart';
-import getTokens from '../utils/getTokens';
+import { getTokens, getPlantPart } from '../utils';
 
 describe('GetPlantPart', () => {
   afterAll(async () => {

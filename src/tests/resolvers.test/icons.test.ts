@@ -1,8 +1,6 @@
 import request from 'supertest';
 import server from '../..';
-import getPlantPart from '../utils/getPlantPart';
-import getRiskCategories from '../utils/getRiskCategories';
-import getTokens from '../utils/getTokens';
+import { getTokens, getRiskCategories, getPlantPart } from '../utils';
 
 describe('Icons', () => {
   afterAll(async () => {

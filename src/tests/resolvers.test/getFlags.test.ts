@@ -1,7 +1,7 @@
 import request from 'supertest';
 import server from '../..';
 import getFlagsQuery from '../query/getFlagsQuery';
-import getTokens from '../utils/getTokens';
+import { getTokens } from '../utils';
 
 describe('GetFlags', () => {
   afterAll(async () => {
