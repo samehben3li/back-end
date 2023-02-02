@@ -1,7 +1,7 @@
 import request from 'supertest';
 import server from '../..';
 import { corretUserInfo, incorrectUserInfo } from '../data';
-import loginMutation from '../mutation/loginMutation';
+import { loginMutation } from '../mutation';
 
 describe('Login', () => {
   afterAll(async () => {

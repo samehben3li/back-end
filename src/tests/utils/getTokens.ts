@@ -1,7 +1,7 @@
 import request from 'supertest';
 import server from '../..';
 import { corretUserInfo } from '../data';
-import loginMutation from '../mutation/loginMutation';
+import { loginMutation } from '../mutation';
 
 const getTokens = async () => {
   const response = await request(server)
