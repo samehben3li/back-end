@@ -1,9 +1,9 @@
-import { awsCloudFront } from '../config';
+import { awsCloudFront, userEmail, userPassword } from '../config';
 import { IFlag } from '../interfaces';
 
 export const corretUserInfo = {
-  email: 'test@test.com',
-  password: 'test123',
+  email: userEmail,
+  password: userPassword,
 };
 
 export const incorrectUserInfo = {

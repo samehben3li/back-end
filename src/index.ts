@@ -20,7 +20,7 @@ const apolloServer = new ApolloServer({
 
 const connect = async () => {
   await mongoose.connect(mongoURI);
-  console.log('connected to database');// eslint-disable-line
+  // console.log('connected to database');// eslint-disable-line
 };
 
 const startApolloServer = async () => {
@@ -38,7 +38,7 @@ startApolloServer();
 
 const server = app.listen(port, () => {
   connect();
-  console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
+  // console.log(`API RUNNING AT : http://localhost:${port} :)`);// eslint-disable-line
 });
 
 export default server;
