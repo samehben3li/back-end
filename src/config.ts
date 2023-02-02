@@ -16,4 +16,4 @@ export const awsCloudFront = process.env.AWS_CLOUD_FRONT_URL;
 export const userEmail: string = process.env.USER_EMAIL as string;
 export const userPassword: string = process.env.USER_PASSWORD as string;
 export const adminEmail: string = process.env.ADMIN_EMAIL as string;
-export const adminPassword: string = process.env.ADMIN_PASSWOR as string;
+export const adminPassword: string = process.env.ADMIN_PASSWORD as string;
