@@ -1,6 +1,6 @@
 import request from 'supertest';
 import server from '../..';
-import getFlagsQuery from '../query/getFlagsQuery';
+import { getFlagsQuery } from '../query';
 import { getTokens } from '../utils';
 
 describe('GetFlags', () => {
