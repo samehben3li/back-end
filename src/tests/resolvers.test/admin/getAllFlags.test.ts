@@ -8,7 +8,7 @@ describe('Get_ALL_FLAGS', () => {
     server.close();
   });
   it('testing getAllFlags functionnality', async () => {
-    const { adminToken, userToken } = await getTokens();
+    const { adminToken, userToken, fakeToken } = await getTokens();
 
     // with admin access token
     let response = await request(server).post('/').send(getAllFlagsQuery).set({
@@ -24,5 +24,12 @@ describe('Get_ALL_FLAGS', () => {
     expect(response?.body?.data).toBeNull();
     expect(response?.body?.errors).toBeTruthy();
     expect(response?.body?.errors[0]?.message).toBe('NOT_AUTHORIZED');
+
+    // with incorrect access token
+    response = await request(server).post('/').send(getAllFlagsQuery).set({
+      Authorization: fakeToken,
+    });
+    expect(response?.body?.data).toBeNull();
+    expect(response?.body?.errors).toBeTruthy();
   });
 });
