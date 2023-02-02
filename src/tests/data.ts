@@ -1,5 +1,16 @@
-import { awsCloudFront, userEmail, userPassword } from '../config';
+import {
+  adminEmail,
+  adminPassword,
+  awsCloudFront,
+  userEmail,
+  userPassword,
+} from '../config';
 import { IFlag } from '../interfaces';
+
+export const adminCredentials = {
+  email: adminEmail,
+  password: adminPassword,
+};
 
 export const corretUserInfo = {
   email: userEmail,

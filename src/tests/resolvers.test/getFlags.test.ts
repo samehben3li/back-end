@@ -8,10 +8,10 @@ describe('GetFlags', () => {
     server.close();
   });
   it('testing getFlags functionnality', async () => {
-    const { token, fakeToken } = await getTokens();
+    const { userToken, fakeToken } = await getTokens();
     // with correct access token
     let response = await request(server).post('/').send(getFlagsQuery).set({
-      Authorization: token,
+      Authorization: userToken,
     });
     expect(response?.body?.data?.getFlags).toBeTruthy();
     expect(response?.body?.errors).toBeUndefined();
