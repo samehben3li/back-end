@@ -2,7 +2,7 @@ import request from 'supertest';
 import server from '../../..';
 import { getTokens } from '../../utils';
 
-describe('CREATE_USER', () => {
+describe('CRUD_USER', () => {
   afterAll(async () => {
     server.close();
   });

@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import {
   adminEmail,
   adminPassword,
@@ -5,7 +6,7 @@ import {
   userEmail,
   userPassword,
 } from '../config';
-import { IFlag } from '../interfaces';
+import { IFlag, IUserInfo } from '../interfaces';
 
 export const adminCredentials = {
   email: adminEmail,
@@ -41,4 +42,11 @@ export const flag: IFlag = {
     imgUrl: `${awsCloudFront}plant-part/fruit.svg`,
   },
   location: fakeLocation,
+};
+
+const fakeName = faker.name.findName();
+export const fakeUser: IUserInfo = {
+  email: faker.internet.email(fakeName),
+  username: faker.internet.userName(fakeName),
+  password: faker.internet.password(8),
 };
