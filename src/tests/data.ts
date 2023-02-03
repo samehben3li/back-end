@@ -77,3 +77,8 @@ export const newRiskCategory: IRiskCategory = {
     },
   ],
 };
+
+export const newType = {
+  name: 'TYPE_ADD',
+  imgUrl: `${awsCloudFront}static.svg`,
+};

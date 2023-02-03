@@ -1,7 +1,12 @@
 import server from '../../..';
 import { awsCloudFront } from '../../../config';
-import { newRiskCategory } from '../../data';
-import { createRiskCategory, getTokens, updateRiskCategory } from '../../utils';
+import { newRiskCategory, newType } from '../../data';
+import {
+  addType,
+  createRiskCategory,
+  getTokens,
+  updateRiskCategory,
+} from '../../utils';
 
 describe('CRUD_RISKCATEGORY', () => {
   afterAll(async () => {
@@ -101,5 +106,36 @@ describe('CRUD_RISKCATEGORY', () => {
     expect(
       updateRiskCategoryResponse?.body?.data?.updateRiskCategory?.imgUrl,
     ).toBe(imgUrl);
+  });
+  it('testing create risk category type functionality', async () => {
+    // get tokens
+    const { fakeToken, userToken, adminToken } = await getTokens();
+
+    // testing with incorrect access token
+    let addTypeResponse = await addType(fakeToken, riskCategoryId, newType);
+    expect(addTypeResponse?.body?.data).toBeNull();
+    expect(addTypeResponse?.body?.errors).toBeTruthy();
+
+    // testing with user token
+    addTypeResponse = await addType(userToken, riskCategoryId, newType);
+    expect(addTypeResponse?.body?.data).toBeNull();
+    expect(addTypeResponse?.body?.errors).toBeTruthy();
+    expect(addTypeResponse?.body?.errors[0]?.message).toBe('NOT_AUTHORIZED');
+
+    // testing with admin token
+    addTypeResponse = await addType(adminToken, riskCategoryId, newType);
+    expect(addTypeResponse?.body?.data).toBeTruthy();
+    expect(addTypeResponse?.body?.errors).toBeUndefined();
+    expect(addTypeResponse?.body?.data?.addRiskCategoryType).toContainKeys([
+      'id',
+      'name',
+      'imgUrl',
+    ]);
+    expect(addTypeResponse?.body?.data?.addRiskCategoryType?.name).toBe(
+      newType.name,
+    );
+    expect(addTypeResponse?.body?.data?.addRiskCategoryType?.imgUrl).toBe(
+      newType.imgUrl,
+    );
   });
 });
