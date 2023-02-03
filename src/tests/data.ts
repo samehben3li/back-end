@@ -6,7 +6,7 @@ import {
   userEmail,
   userPassword,
 } from '../config';
-import { IFlag, IUserInfo } from '../interfaces';
+import { IFlag, IRiskCategory, IUserInfo } from '../interfaces';
 
 export const adminCredentials = {
   email: adminEmail,
@@ -54,3 +54,26 @@ export const fakeUser = (): IUserInfo => {
 };
 
 export const incorrectUserId = 'incorrect-user-id';
+
+export const newRiskCategory: IRiskCategory = {
+  name: 'TEST_ADD',
+  imgUrl: `${awsCloudFront}/static.svg`,
+  riskCategoryTypes: [
+    {
+      name: 'TYPE_1',
+      imgUrl: `${awsCloudFront}/static.svg`,
+    },
+    {
+      name: 'TYPE_2',
+      imgUrl: `${awsCloudFront}/static.svg`,
+    },
+    {
+      name: 'TYPE_3',
+      imgUrl: `${awsCloudFront}/static.svg`,
+    },
+    {
+      name: 'TYPE_4',
+      imgUrl: `${awsCloudFront}/static.svg`,
+    },
+  ],
+};
