@@ -1,4 +1,3 @@
-import request from 'supertest';
 import server from '../../..';
 import { getTokens } from '../../utils';
 
