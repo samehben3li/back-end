@@ -69,6 +69,7 @@ describe('CRUD_USER', () => {
 
     userId = newUserResponse?.body?.data?.createUser?.id;
   });
+
   it('testing update user functionality', async () => {
     // get tokens
     const { fakeToken, userToken, adminToken } = await getTokens();

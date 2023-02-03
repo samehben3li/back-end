@@ -4,3 +4,4 @@ export { default as getPlantPart } from './getPlantPart';
 export { default as addFlag } from './addFlag';
 export { default as createUser } from './createUser';
 export { default as updateUser } from './updateUser';
+export { default as deleteUser } from './deleteUser';
