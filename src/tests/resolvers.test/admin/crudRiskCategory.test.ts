@@ -4,6 +4,7 @@ import { newRiskCategory, newType, updateTypeInfo } from '../../data';
 import {
   addType,
   createRiskCategory,
+  deleteType,
   getTokens,
   updateRiskCategory,
   updateType,
@@ -184,6 +185,34 @@ describe('CRUD_RISKCATEGORY', () => {
     );
     expect(updateTypeResponse?.body?.data?.updateRiskCategoryType?.imgUrl).toBe(
       updateTypeInfo.imgUrl,
+    );
+  });
+
+  it('testing delete risk category type functionality', async () => {
+    // get tokens
+    const { fakeToken, userToken, adminToken } = await getTokens();
+
+    // testing with incorrect access token
+    let deleteTypeResponse = await deleteType(
+      fakeToken,
+      riskCategoryId,
+      typeId,
+    );
+    expect(deleteTypeResponse?.body?.data).toBeNull();
+    expect(deleteTypeResponse?.body?.errors).toBeTruthy();
+
+    // testing with user token
+    deleteTypeResponse = await deleteType(userToken, riskCategoryId, typeId);
+    expect(deleteTypeResponse?.body?.data).toBeNull();
+    expect(deleteTypeResponse?.body?.errors).toBeTruthy();
+    expect(deleteTypeResponse?.body?.errors[0]?.message).toBe('NOT_AUTHORIZED');
+
+    // testing with admin token
+    deleteTypeResponse = await deleteType(adminToken, riskCategoryId, typeId);
+    expect(deleteTypeResponse?.body?.data).toBeTruthy();
+    expect(deleteTypeResponse?.body?.errors).toBeUndefined();
+    expect(deleteTypeResponse?.body?.data?.deleteRiskCategoryType).toBe(
+      'RISK_CATEGORY_TYPE_DELETED',
     );
   });
 });

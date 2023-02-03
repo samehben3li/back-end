@@ -9,3 +9,4 @@ export { default as createRiskCategory } from './createRiskCategory';
 export { default as updateRiskCategory } from './updateRiskCategory';
 export { default as addType } from './addType';
 export { default as updateType } from './updateType';
+export { default as deleteType } from './deleteType';
