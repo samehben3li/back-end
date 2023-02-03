@@ -4,7 +4,7 @@ const deleteUserMutation = (deleteUserId: string) => ({
       deleteUser(id: $deleteUserId)
     }
   `,
-  variables: deleteUserId,
+  variables: { deleteUserId },
 });
 
 export default deleteUserMutation;

@@ -2,7 +2,7 @@ import request from 'supertest';
 import server from '../../..';
 import { corretUserInfo, fakeUser, incorrectUserId } from '../../data';
 import { getAllUsersQuery } from '../../query';
-import { createUser, getTokens, updateUser } from '../../utils';
+import { createUser, deleteUser, getTokens, updateUser } from '../../utils';
 
 describe('CRUD_USER', () => {
   afterAll(async () => {
@@ -117,12 +117,40 @@ describe('CRUD_USER', () => {
     expect(updateUserResponse?.body?.errors).toBeTruthy();
     expect(updateUserResponse?.body?.errors[0]?.message).toBe('USER_NOT_FOUND');
 
-    // testing with incorrect user id
+    // testing with existing information
     updateUserResponse = await updateUser(adminToken, userId, corretUserInfo);
     expect(updateUserResponse?.body?.data).toBeNull();
     expect(updateUserResponse?.body?.errors).toBeTruthy();
     expect(updateUserResponse?.body?.errors[0]?.message).toBe(
       'INFORMATION_ALREADY_EXIST',
     );
+  });
+
+  it('testing delete user functionality', async () => {
+    // get tokens
+    const { fakeToken, userToken, adminToken } = await getTokens();
+
+    // testing with incorrect access token
+    let deleteUserResponse = await deleteUser(fakeToken, userId);
+    expect(deleteUserResponse?.body?.data).toBeNull();
+    expect(deleteUserResponse?.body?.errors).toBeTruthy();
+
+    // testing with user token
+    deleteUserResponse = await deleteUser(userToken, userId);
+    expect(deleteUserResponse?.body?.data).toBeNull();
+    expect(deleteUserResponse?.body?.errors).toBeTruthy();
+    expect(deleteUserResponse?.body?.errors[0]?.message).toBe('NOT_AUTHORIZED');
+
+    // testing with incorrect user id
+    deleteUserResponse = await deleteUser(adminToken, incorrectUserId);
+    expect(deleteUserResponse?.body?.data).toBeNull();
+    expect(deleteUserResponse?.body?.errors).toBeTruthy();
+    expect(deleteUserResponse?.body?.errors[0]?.message).toBe('DATA_NOT_FOUND');
+
+    // testing with admin token
+    deleteUserResponse = await deleteUser(adminToken, userId);
+    expect(deleteUserResponse?.body?.data).toBeTruthy();
+    expect(deleteUserResponse?.body?.errors).toBeUndefined();
+    expect(deleteUserResponse?.body?.data?.deleteUser).toBe('DATA_DELETED');
   });
 });
