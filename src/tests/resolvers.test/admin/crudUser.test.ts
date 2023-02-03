@@ -37,7 +37,7 @@ describe('CRUD_USER', () => {
   it('testing create user functionality', async () => {
     // get tokens
     const { fakeToken, userToken, adminToken } = await getTokens();
-    const newUserInfo = fakeUser;
+    const newUserInfo = fakeUser();
 
     // testing with incorrect access token
     let newUserResponse = await createUser(fakeToken, newUserInfo);
@@ -71,8 +71,8 @@ describe('CRUD_USER', () => {
   });
   it('testing update user functionality', async () => {
     // get tokens
-    const { fakeToken, userToken } = await getTokens();
-    const updateUserInfo = fakeUser;
+    const { fakeToken, userToken, adminToken } = await getTokens();
+    const updateUserInfo = fakeUser();
 
     // testing with incorrect access token
     let updateUserResponse = await updateUser(
@@ -88,5 +88,22 @@ describe('CRUD_USER', () => {
     expect(updateUserResponse?.body?.data).toBeNull();
     expect(updateUserResponse?.body?.errors).toBeTruthy();
     expect(updateUserResponse?.body?.errors[0]?.message).toBe('NOT_AUTHORIZED');
+
+    // testing with admin token
+    updateUserResponse = await updateUser(adminToken, userId, updateUserInfo);
+    expect(updateUserResponse?.body?.data).toBeTruthy();
+    expect(updateUserResponse?.body?.errors).toBeUndefined();
+    expect(updateUserResponse?.body?.data?.updateUser).toContainKeys([
+      'id',
+      'email',
+      'username',
+      'isAdmin',
+    ]);
+    expect(updateUserResponse?.body?.data?.updateUser?.email).toBe(
+      updateUserInfo.email,
+    );
+    expect(updateUserResponse?.body?.data?.updateUser?.username).toBe(
+      updateUserInfo.username,
+    );
   });
 });

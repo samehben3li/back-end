@@ -44,9 +44,11 @@ export const flag: IFlag = {
   location: fakeLocation,
 };
 
-const fakeName = faker.name.fullName();
-export const fakeUser: IUserInfo = {
-  email: faker.internet.email(fakeName),
-  username: faker.internet.userName(fakeName),
-  password: faker.internet.password(8),
+export const fakeUser = () => {
+  const fakeName = faker.name.fullName();
+  return {
+    email: faker.internet.email(fakeName),
+    username: faker.internet.userName(fakeName),
+    password: faker.internet.password(8),
+  };
 };
