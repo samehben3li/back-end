@@ -1,6 +1,6 @@
 import { IUserInfo } from '../../interfaces';
 
-const updateUserMutation = (id: string, userInfo: IUserInfo) => ({
+const updateUserMutation = (updateUserId: string, userInfo: IUserInfo) => ({
   query: `
     mutation Mutation($updateUserId: ID!, $username: String, $email: String, $password: String) {
         updateUser(id: $updateUserId, username: $username, email: $email, password: $password) {
@@ -11,7 +11,7 @@ const updateUserMutation = (id: string, userInfo: IUserInfo) => ({
         }
     }
     `,
-  variables: { updateUserId: id, ...userInfo },
+  variables: { updateUserId, ...userInfo },
 });
 
 export default updateUserMutation;
