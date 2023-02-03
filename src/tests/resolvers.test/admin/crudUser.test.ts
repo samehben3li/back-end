@@ -2,12 +2,13 @@ import request from 'supertest';
 import server from '../../..';
 import { fakeUser } from '../../data';
 import { getAllUsersQuery } from '../../query';
-import { createUser, getTokens } from '../../utils';
+import { createUser, getTokens, updateUser } from '../../utils';
 
 describe('CRUD_USER', () => {
   afterAll(async () => {
     server.close();
   });
+  let userId: string;
   it('testing getAllUsers functionnality', async () => {
     const { adminToken, userToken, fakeToken } = await getTokens();
 
@@ -65,5 +66,21 @@ describe('CRUD_USER', () => {
     expect(newUserResponse?.body?.data?.createUser?.username).toBe(
       newUserInfo.username,
     );
+
+    userId = newUserResponse?.body?.data?.createUser?.id;
+  });
+  it('testing update user functionality', async () => {
+    // get tokens
+    const { fakeToken } = await getTokens();
+    const updateUserInfo = fakeUser;
+
+    // testing with incorrect access token
+    const updateUserResponse = await updateUser(
+      fakeToken,
+      userId,
+      updateUserInfo,
+    );
+    expect(updateUserResponse?.body?.data).toBeNull();
+    expect(updateUserResponse?.body?.errors).toBeTruthy();
   });
 });
