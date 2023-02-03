@@ -6,9 +6,9 @@ describe('CRUD_USER', () => {
   afterAll(async () => {
     server.close();
   });
-  it('testing create user functionnality', async () => {
+  it('testing create user functionality', async () => {
     // get tokens
-    const { fakeToken, userToken } = await getTokens();
+    const { fakeToken, userToken, adminToken } = await getTokens();
     const newUserInfo = fakeUser;
 
     // testing with incorrect access token
@@ -21,5 +21,22 @@ describe('CRUD_USER', () => {
     expect(newUserResponse?.body?.data).toBeNull();
     expect(newUserResponse?.body?.errors).toBeTruthy();
     expect(newUserResponse?.body?.errors[0]?.message).toBe('NOT_AUTHORIZED');
+
+    // testing with admin token
+    newUserResponse = await createUser(adminToken, newUserInfo);
+    expect(newUserResponse?.body?.data).toBeTruthy();
+    expect(newUserResponse?.body?.errors).toBeUndefined();
+    expect(newUserResponse?.body?.data?.createUser).toContainKeys([
+      'id',
+      'email',
+      'username',
+      'isAdmin',
+    ]);
+    expect(newUserResponse?.body?.data?.createUser?.email).toBe(
+      newUserInfo.email,
+    );
+    expect(newUserResponse?.body?.data?.createUser?.username).toBe(
+      newUserInfo.username,
+    );
   });
 });
