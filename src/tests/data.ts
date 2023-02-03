@@ -44,7 +44,7 @@ export const flag: IFlag = {
   location: fakeLocation,
 };
 
-const fakeName = faker.name.findName();
+const fakeName = faker.name.fullName();
 export const fakeUser: IUserInfo = {
   email: faker.internet.email(fakeName),
   username: faker.internet.userName(fakeName),
