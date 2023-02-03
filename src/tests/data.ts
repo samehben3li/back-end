@@ -82,3 +82,8 @@ export const newType = {
   name: 'TYPE_ADD',
   imgUrl: `${awsCloudFront}static.svg`,
 };
+
+export const updateTypeInfo = {
+  name: 'TYPE_UPDATE',
+  imgUrl: `${awsCloudFront}static.svg`,
+};

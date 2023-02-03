@@ -1,11 +1,12 @@
 import server from '../../..';
 import { awsCloudFront } from '../../../config';
-import { newRiskCategory, newType } from '../../data';
+import { newRiskCategory, newType, updateTypeInfo } from '../../data';
 import {
   addType,
   createRiskCategory,
   getTokens,
   updateRiskCategory,
+  updateType,
 } from '../../utils';
 
 describe('CRUD_RISKCATEGORY', () => {
@@ -14,6 +15,7 @@ describe('CRUD_RISKCATEGORY', () => {
   });
 
   let riskCategoryId: string;
+  let typeId: string;
 
   it('testing create risk category functionality', async () => {
     // get tokens
@@ -136,6 +138,52 @@ describe('CRUD_RISKCATEGORY', () => {
     );
     expect(addTypeResponse?.body?.data?.addRiskCategoryType?.imgUrl).toBe(
       newType.imgUrl,
+    );
+    typeId = addTypeResponse?.body?.data?.addRiskCategoryType?.id;
+  });
+
+  it('testing update risk category type functionality', async () => {
+    // get tokens
+    const { fakeToken, userToken, adminToken } = await getTokens();
+
+    // testing with incorrect access token
+    let updateTypeResponse = await updateType(
+      fakeToken,
+      riskCategoryId,
+      typeId,
+      updateTypeInfo,
+    );
+    expect(updateTypeResponse?.body?.data).toBeNull();
+    expect(updateTypeResponse?.body?.errors).toBeTruthy();
+
+    // testing with user token
+    updateTypeResponse = await updateType(
+      userToken,
+      riskCategoryId,
+      typeId,
+      updateTypeInfo,
+    );
+    expect(updateTypeResponse?.body?.data).toBeNull();
+    expect(updateTypeResponse?.body?.errors).toBeTruthy();
+    expect(updateTypeResponse?.body?.errors[0]?.message).toBe('NOT_AUTHORIZED');
+
+    // testing with admin token
+    updateTypeResponse = await updateType(
+      adminToken,
+      riskCategoryId,
+      typeId,
+      updateTypeInfo,
+    );
+    expect(updateTypeResponse?.body?.data).toBeTruthy();
+    expect(updateTypeResponse?.body?.errors).toBeUndefined();
+    expect(
+      updateTypeResponse?.body?.data?.updateRiskCategoryType,
+    ).toContainKeys(['id', 'name', 'imgUrl']);
+    expect(updateTypeResponse?.body?.data?.updateRiskCategoryType?.name).toBe(
+      updateTypeInfo.name,
+    );
+    expect(updateTypeResponse?.body?.data?.updateRiskCategoryType?.imgUrl).toBe(
+      updateTypeInfo.imgUrl,
     );
   });
 });
