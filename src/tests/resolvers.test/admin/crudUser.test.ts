@@ -71,16 +71,22 @@ describe('CRUD_USER', () => {
   });
   it('testing update user functionality', async () => {
     // get tokens
-    const { fakeToken } = await getTokens();
+    const { fakeToken, userToken } = await getTokens();
     const updateUserInfo = fakeUser;
 
     // testing with incorrect access token
-    const updateUserResponse = await updateUser(
+    let updateUserResponse = await updateUser(
       fakeToken,
       userId,
       updateUserInfo,
     );
     expect(updateUserResponse?.body?.data).toBeNull();
     expect(updateUserResponse?.body?.errors).toBeTruthy();
+
+    // testing with user token
+    updateUserResponse = await updateUser(userToken, userId, updateUserInfo);
+    expect(updateUserResponse?.body?.data).toBeNull();
+    expect(updateUserResponse?.body?.errors).toBeTruthy();
+    expect(updateUserResponse?.body?.errors[0]?.message).toBe('NOT_AUTHORIZED');
   });
 });
