@@ -4,6 +4,7 @@ import { newRiskCategory, newType, updateTypeInfo } from '../../data';
 import {
   addType,
   createRiskCategory,
+  deleteRiskCategory,
   deleteType,
   getTokens,
   updateRiskCategory,
@@ -213,6 +214,41 @@ describe('CRUD_RISKCATEGORY', () => {
     expect(deleteTypeResponse?.body?.errors).toBeUndefined();
     expect(deleteTypeResponse?.body?.data?.deleteRiskCategoryType).toBe(
       'RISK_CATEGORY_TYPE_DELETED',
+    );
+  });
+
+  it('testing delete risk category functionality', async () => {
+    // get tokens
+    const { fakeToken, userToken, adminToken } = await getTokens();
+
+    // testing with incorrect access token
+    let deleteRiskCategoryResponse = await deleteRiskCategory(
+      fakeToken,
+      riskCategoryId,
+    );
+    expect(deleteRiskCategoryResponse?.body?.data).toBeNull();
+    expect(deleteRiskCategoryResponse?.body?.errors).toBeTruthy();
+
+    // testing with user token
+    deleteRiskCategoryResponse = await deleteRiskCategory(
+      userToken,
+      riskCategoryId,
+    );
+    expect(deleteRiskCategoryResponse?.body?.data).toBeNull();
+    expect(deleteRiskCategoryResponse?.body?.errors).toBeTruthy();
+    expect(deleteRiskCategoryResponse?.body?.errors[0]?.message).toBe(
+      'NOT_AUTHORIZED',
+    );
+
+    // testing with admin token
+    deleteRiskCategoryResponse = await deleteRiskCategory(
+      adminToken,
+      riskCategoryId,
+    );
+    expect(deleteRiskCategoryResponse?.body?.data).toBeTruthy();
+    expect(deleteRiskCategoryResponse?.body?.errors).toBeUndefined();
+    expect(deleteRiskCategoryResponse?.body?.data?.deleteRiskCategory).toBe(
+      'DATA_DELETED',
     );
   });
 });

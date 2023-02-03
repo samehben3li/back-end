@@ -8,3 +8,4 @@ export { default as updateRiskCategoryMutation } from './updateRiskCategoryMutat
 export { default as addTypeMutation } from './addTypeMutation';
 export { default as updateTypeMutation } from './updateTypeMutation';
 export { default as deleteTypeMutation } from './deleteTypeMutation';
+export { default as deleteRiskCategoryMutation } from './deleteRiskCategoryMutation';
