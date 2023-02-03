@@ -1,6 +1,6 @@
 import request from 'supertest';
 import server from '../../..';
-import { fakeUser } from '../../data';
+import { fakeUser, incorrectUserId } from '../../data';
 import { getAllUsersQuery } from '../../query';
 import { createUser, getTokens, updateUser } from '../../utils';
 
@@ -105,5 +105,15 @@ describe('CRUD_USER', () => {
     expect(updateUserResponse?.body?.data?.updateUser?.username).toBe(
       updateUserInfo.username,
     );
+
+    // testing with incorrect user id
+    updateUserResponse = await updateUser(
+      adminToken,
+      incorrectUserId,
+      updateUserInfo,
+    );
+    expect(updateUserResponse?.body?.data).toBeNull();
+    expect(updateUserResponse?.body?.errors).toBeTruthy();
+    expect(updateUserResponse?.body?.errors[0]?.message).toBe('USER_NOT_FOUND');
   });
 });
