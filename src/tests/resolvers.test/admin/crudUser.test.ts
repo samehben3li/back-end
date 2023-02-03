@@ -8,12 +8,18 @@ describe('CRUD_USER', () => {
   });
   it('testing create user functionnality', async () => {
     // get tokens
-    const { fakeToken } = await getTokens();
+    const { fakeToken, userToken } = await getTokens();
     const newUserInfo = fakeUser;
 
     // testing with incorrect access token
-    const newUserResponse = await createUser(fakeToken, newUserInfo);
+    let newUserResponse = await createUser(fakeToken, newUserInfo);
     expect(newUserResponse?.body?.data).toBeNull();
     expect(newUserResponse?.body?.errors).toBeTruthy();
+
+    // testing with user token
+    newUserResponse = await createUser(userToken, newUserInfo);
+    expect(newUserResponse?.body?.data).toBeNull();
+    expect(newUserResponse?.body?.errors).toBeTruthy();
+    expect(newUserResponse?.body?.errors[0]?.message).toBe('NOT_AUTHORIZED');
   });
 });
