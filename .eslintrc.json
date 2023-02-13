@@ -8,7 +8,7 @@
         "plugin:import/typescript",
         "plugin:prettier/recommended",
         "eslint:recommended",
-        "airbnb/base",
+        "airbnb-base",
         "prettier",
         "airbnb-typescript/base",
         "plugin:@typescript-eslint/recommended"
