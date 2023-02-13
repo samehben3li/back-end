@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { authenticated, authorization } from '.';
+import { authenticated, authorization } from 'utils';
 import { IUser, IRiskCategory } from '../interfaces';
 
 const deleteData = async (

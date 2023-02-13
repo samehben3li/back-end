@@ -8,12 +8,13 @@
         "plugin:import/typescript",
         "plugin:prettier/recommended",
         "eslint:recommended",
-        "airbnb",
-        "prettier"
+        "airbnb/base",
+        "prettier",
+        "airbnb-typescript/base",
+        "plugin:@typescript-eslint/recommended"
     ],
     "plugins": [
-        "@typescript-eslint",
-        "prettier"
+        "@typescript-eslint", "import", "prettier"
     ],
     "overrides": [
         {
@@ -33,6 +34,7 @@
         }
     ],
     "parserOptions": {
+        "project": "./tsconfig.eslint.json",
         "ecmaVersion": "latest",
         "sourceType": "module",
         "bracketSpacing": true
