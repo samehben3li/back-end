@@ -40,7 +40,7 @@
         "bracketSpacing": true
     },
     "rules": {
-        "import/no-unresolved": 0,
+        "import/no-unresolved": 2,
         "@typescript-eslint/no-explicit-any": "warn",
         "prettier/prettier": [
             "error",

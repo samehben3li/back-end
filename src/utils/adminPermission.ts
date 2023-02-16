@@ -1,5 +1,6 @@
 import { NextFunction } from 'express';
-import { authenticated, authorization } from 'utils';
+import authenticated from './authenticated';
+import authorization from './authorization';
 
 const adminPermission = async (token: string, next: NextFunction) => {
   const { isAdmin } = authenticated(token);
