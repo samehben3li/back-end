@@ -1,17 +1,16 @@
 import server from '../..';
 import { flag } from '../data';
-import addFlag from '../utils/addFlag';
-import getTokens from '../utils/getTokens';
+import { getTokens, addFlag } from '../utils';
 
 describe('AddFlag', () => {
   afterAll(async () => {
     server.close();
   });
   it('testing addFlag functionnality', async () => {
-    const { token, fakeToken } = await getTokens();
+    const { userToken, fakeToken } = await getTokens();
 
     // with correct access token
-    let newFlag = await addFlag(token, flag);
+    let newFlag = await addFlag(userToken, flag);
     expect(newFlag?.body?.data).toBeTruthy();
     expect(newFlag?.body?.errors).toBeUndefined();
     expect(newFlag?.body?.data?.addFlag).toContainKeys([

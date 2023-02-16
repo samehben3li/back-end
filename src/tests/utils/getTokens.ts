@@ -1,16 +1,20 @@
 import request from 'supertest';
 import server from '../..';
-import { corretUserInfo } from '../data';
-import loginMutation from '../mutation/loginMutation';
+import { adminCredentials, corretUserInfo } from '../data';
+import { loginMutation } from '../mutation';
 
 const getTokens = async () => {
-  const response = await request(server)
+  let response = await request(server)
     .post('/')
     .send(loginMutation(corretUserInfo));
   const fakeToken = 'bearer fake.token';
-  const token = `bearer ${response?.body?.data?.login?.accessToken}`;
+  const userToken = `bearer ${response?.body?.data?.login?.accessToken}`;
+  response = await request(server)
+    .post('/')
+    .send(loginMutation(adminCredentials));
+  const adminToken = `bearer ${response?.body?.data?.login?.accessToken}`;
   server.close();
-  return { token, fakeToken };
+  return { userToken, adminToken, fakeToken };
 };
 
 export default getTokens;

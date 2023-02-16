@@ -1,7 +1,7 @@
 import request from 'supertest';
 import server from '../..';
 import { IInputOptions } from '../../interfaces';
-import getPlantPartQuery from '../query/getPlantPartQuery';
+import { getPlantPartQuery } from '../query';
 
 const getPlantPart = async (token: string): Promise<Array<IInputOptions>> => {
   const response = await request(server).post('/').send(getPlantPartQuery).set({

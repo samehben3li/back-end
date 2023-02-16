@@ -1,12 +1,11 @@
 import request from 'supertest';
 import server from '../..';
-import { IFlag } from '../../interfaces';
-import { addFlagMutation } from '../mutation';
+import { deleteUserMutation } from '../mutation';
 
-const addFlag = async (token: string, flag: IFlag) => {
+const deleteUser = async (token: string, id: string) => {
   const response = await request(server)
     .post('/')
-    .send(addFlagMutation(flag))
+    .send(deleteUserMutation(id))
     .set({
       Authorization: token,
     });
@@ -14,4 +13,4 @@ const addFlag = async (token: string, flag: IFlag) => {
   return response;
 };
 
-export default addFlag;
+export default deleteUser;

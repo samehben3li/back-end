@@ -1,8 +1,6 @@
 import request from 'supertest';
 import server from '../..';
-import getPlantPart from '../utils/getPlantPart';
-import getRiskCategories from '../utils/getRiskCategories';
-import getTokens from '../utils/getTokens';
+import { getTokens, getRiskCategories, getPlantPart } from '../utils';
 
 describe('Icons', () => {
   afterAll(async () => {
@@ -10,9 +8,9 @@ describe('Icons', () => {
   });
   it('testing icons', async () => {
     let response;
-    const { token } = await getTokens();
-    const riskCategories = await getRiskCategories(token);
-    const plantPart = await getPlantPart(token);
+    const { userToken } = await getTokens();
+    const riskCategories = await getRiskCategories(userToken);
+    const plantPart = await getPlantPart(userToken);
 
     // testing risk categories icons
     riskCategories.forEach(async rc => {

@@ -1,0 +1,11 @@
+export { default as createUserMutation } from './createUserMutation';
+export { default as addFlagMutation } from './addFlagMutation';
+export { default as loginMutation } from './loginMutation';
+export { default as updateUserMutation } from './updateUserMutation';
+export { default as deleteUserMutation } from './deleteUserMutation';
+export { default as createRiskCategoryMutation } from './createRiskCategoryMutation';
+export { default as updateRiskCategoryMutation } from './updateRiskCategoryMutation';
+export { default as addTypeMutation } from './addTypeMutation';
+export { default as updateTypeMutation } from './updateTypeMutation';
+export { default as deleteTypeMutation } from './deleteTypeMutation';
+export { default as deleteRiskCategoryMutation } from './deleteRiskCategoryMutation';

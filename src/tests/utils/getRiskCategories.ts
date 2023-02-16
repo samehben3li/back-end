@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { IRiskCategory } from '../../interfaces';
 import server from '../..';
-import getRiskCategoriesQuery from '../query/getRiskCategoriesQuery';
+import { getRiskCategoriesQuery } from '../query';
 
 const getRiskCategories = async (
   token: string,
