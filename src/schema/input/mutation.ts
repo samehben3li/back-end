@@ -14,62 +14,51 @@ const inputMutation: IResolvers = {
     { name, imgUrl, riskCategoryTypes },
     context,
   ) =>
-    adminPermission(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-      () =>
-        RiskCategory.create({
-          name,
-          imgUrl,
-          riskCategoryTypes,
-        }).then(riskCategory => riskCategory),
+    adminPermission(context, () =>
+      RiskCategory.create({
+        name,
+        imgUrl,
+        riskCategoryTypes,
+      }).then(riskCategory => riskCategory),
     ),
   deleteRiskCategory: (_parent, { id }, context) =>
     deleteData(context, RiskCategory, id),
   updateRiskCategory: async (_parent, { id, name, imgUrl }, context) =>
-    adminPermission(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-      () =>
-        RiskCategory.findByIdAndUpdate(
-          id,
-          {
-            name,
-            imgUrl,
-          },
-          { new: true, multi: false, runValidators: true },
-        ).then(riskCategory => riskCategory),
+    adminPermission(context, () =>
+      RiskCategory.findByIdAndUpdate(
+        id,
+        {
+          name,
+          imgUrl,
+        },
+        { new: true, multi: false, runValidators: true },
+      ).then(riskCategory => riskCategory),
     ),
   addRiskCategoryType: async (_parent, { id, name, imgUrl }, context) =>
-    adminPermission(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-      () => addRiskCategoryType(id, name, imgUrl),
-    ),
+    adminPermission(context, () => addRiskCategoryType(id, name, imgUrl)),
   deleteRiskCategoryType: async (
     _parent,
     { riskCategoryId, riskCategoryTypeId },
     context,
   ) =>
-    adminPermission(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-      () => deleteRiskCategoryType(riskCategoryId, riskCategoryTypeId),
+    adminPermission(context, () =>
+      deleteRiskCategoryType(riskCategoryId, riskCategoryTypeId),
     ),
   updateRiskCategoryType: async (
     _parent,
     { riskCategoryId, riskCategoryTypeId, riskCategoryType },
     context,
   ) =>
-    adminPermission(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-      () =>
-        updateRiskCategoryType(
-          riskCategoryId,
-          riskCategoryTypeId,
-          riskCategoryType,
-        ),
+    adminPermission(context, () =>
+      updateRiskCategoryType(
+        riskCategoryId,
+        riskCategoryTypeId,
+        riskCategoryType,
+      ),
     ),
   getUploadURL: async (_parent, { imgName }, context) =>
-    adminPermission(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-      () => generateUploadURL(imgName).then(uploadURL => uploadURL),
+    adminPermission(context, () =>
+      generateUploadURL(imgName).then(uploadURL => uploadURL),
     ),
 };
 

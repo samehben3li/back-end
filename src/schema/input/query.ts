@@ -9,9 +9,8 @@ const inputQuery: IResolvers = {
   getPlantPart: (_parent, _args, context) =>
     getInputContent(context, () => PlantPart.find().then(pps => pps)),
   getRiskCategory: async (_parent, { id }, context) =>
-    adminPermission(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-      () => RiskCategory.findById(id).then(riskCategory => riskCategory),
+    adminPermission(context, () =>
+      RiskCategory.findById(id).then(riskCategory => riskCategory),
     ),
 };
 

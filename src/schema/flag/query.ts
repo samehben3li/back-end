@@ -12,13 +12,11 @@ const flagQuery: IResolvers = {
       .then(flags => flags);
   },
   getAllFlags: (_parent, { page = 1, limit = 10 }, context) =>
-    adminPermission(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-      () =>
-        Flag.find()
-          .skip((page - 1) * limit)
-          .limit(limit)
-          .then(flags => flags),
+    adminPermission(context, () =>
+      Flag.find()
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .then(flags => flags),
     ),
 };
 
