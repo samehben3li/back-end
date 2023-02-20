@@ -9,7 +9,8 @@ const userMutation: IResolvers = {
     adminPermission(context, () => createUser(username, email, password)),
   updateUser: async (_parent, args: IUser, context) =>
     adminPermission(context, () => updateUser(args)),
-  deleteUser: (_parent, { id }, context) => deleteData(context, User, id),
+  deleteUser: (_parent, { id }, context) =>
+    adminPermission(context, () => deleteData(User, id)),
 };
 
 export default userMutation;

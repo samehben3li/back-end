@@ -22,7 +22,7 @@ const inputMutation: IResolvers = {
       }).then(riskCategory => riskCategory),
     ),
   deleteRiskCategory: (_parent, { id }, context) =>
-    deleteData(context, RiskCategory, id),
+    adminPermission(context, () => deleteData(RiskCategory, id)),
   updateRiskCategory: async (_parent, { id, name, imgUrl }, context) =>
     adminPermission(context, () =>
       RiskCategory.findByIdAndUpdate(
