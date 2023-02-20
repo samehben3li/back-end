@@ -19,6 +19,7 @@ const apolloServer = new ApolloServer({
 });
 
 const connect = async () => {
+  mongoose.set('strictQuery', false);
   await mongoose.connect(mongoURI);
   // console.log('connected to database');// eslint-disable-line
 };
