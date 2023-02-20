@@ -24,11 +24,7 @@ const inputMutation: IResolvers = {
         }).then(riskCategory => riskCategory),
     ),
   deleteRiskCategory: (_parent, { id }, context) =>
-    deleteData(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-      id,
-      RiskCategory,
-    ),
+    deleteData(context, RiskCategory, id),
   updateRiskCategory: async (_parent, { id, name, imgUrl }, context) =>
     adminPermission(
       context.req.headers.authorization?.split(' ').pop().trim(),

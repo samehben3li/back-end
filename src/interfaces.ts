@@ -35,3 +35,11 @@ export interface IFlag {
   plantPart: IInputOptions;
   location: ILocation;
 }
+
+export interface IContext {
+  req: {
+    headers: {
+      authorization: string;
+    };
+  };
+}

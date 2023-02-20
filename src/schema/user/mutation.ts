@@ -15,12 +15,7 @@ const userMutation: IResolvers = {
       context.req.headers.authorization?.split(' ').pop().trim(),
       () => updateUser(args),
     ),
-  deleteUser: (_parent, { id }, context) =>
-    deleteData(
-      context.req.headers.authorization?.split(' ').pop().trim(),
-      id,
-      User,
-    ),
+  deleteUser: (_parent, { id }, context) => deleteData(context, User, id),
 };
 
 export default userMutation;
